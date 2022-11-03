@@ -1,0 +1,21 @@
+﻿<Window x:Class="SchoolProject.AddDirectory"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SchoolProject"
+        mc:Ignorable="d"
+        Title="Добавить справочник" Height="250" Width="300">
+    <Grid>
+        <TextBox x:Name="Name" HorizontalAlignment="Left" Margin="96,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="LekHour" HorizontalAlignment="Left" Margin="96,54,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="PractHour" HorizontalAlignment="Left" Margin="96,88,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="LabHour" HorizontalAlignment="Left" Margin="96,118,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Название" HorizontalAlignment="Left" Margin="2,18,0,0" VerticalAlignment="Top"/>
+        <Label Content="Часы лекций" HorizontalAlignment="Left" Margin="2,50,0,0" VerticalAlignment="Top"/>
+        <Label Content="Часы практик" HorizontalAlignment="Left" Margin="2,84,0,0" VerticalAlignment="Top"/>
+        <Label Content="Часы ЛР" HorizontalAlignment="Left" Margin="2,114,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="Add" Content="Добавить" HorizontalAlignment="Left" Margin="8,170,0,0" VerticalAlignment="Top" Click="Add_Click"/>
+        <Button x:Name="Cancel" Content="Отмена" HorizontalAlignment="Left" Margin="96,170,0,0" VerticalAlignment="Top" Click="Cancel_Click"/>
+    </Grid>
+</Window>

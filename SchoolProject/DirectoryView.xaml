@@ -1,0 +1,24 @@
+﻿<Window x:Class="SchoolProject.DirectoryView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SchoolProject"
+        mc:Ignorable="d"
+        Title="Справочник Факультативов" Height="450" Width="975">
+    <Grid>
+        <DataGrid AutoGenerateColumns="False" x:Name="grid" FontFamily="Times New Roman" Margin="180,0,0,0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Название}" Header="Название Факультатива" Width="200" FontFamily="Times New Roman"/>
+                <DataGridTextColumn Binding="{Binding Часы}" Header="Общее колличество часов" Width="160" FontFamily="Times New Roman"/>
+                <DataGridTextColumn Binding="{Binding Объём_лекций}" Header="Часы по лекциям" Width="100" FontFamily="Times New Roman"/>
+                <DataGridTextColumn Binding="{Binding Объём_практик}" Header="Часы по практике" Width="110" FontFamily="Times New Roman"/>
+                <DataGridTextColumn Binding="{Binding Объём_лабораторных_работ}" Header="Часы по лабораторным работам" Width="180" FontFamily="Times New Roman"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="Add" Content="Добавить" Margin="21,270,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Click="Add_Click"/>
+        <Button x:Name="Redact" Content="Изменить" Margin="21,310,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Click="Redact_Click"/>
+        <Button x:Name="Delete" Content="Удалить" Margin="21,350,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Click="Delete_Click"/>
+        <Button x:Name="BackMenu" Content="Назад" HorizontalAlignment="Left" Margin="21,390,0,0" VerticalAlignment="Top" Click="BackMenu_Click"/>
+    </Grid>
+</Window>

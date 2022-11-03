@@ -1,0 +1,458 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище Definition_of_electives_for_studentsModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Должность">
+          <Key>
+            <PropertyRef Name="ID_Должности" />
+          </Key>
+          <Property Name="ID_Должности" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Название" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Оклад" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Преподаватель">
+          <Key>
+            <PropertyRef Name="Код_Преподавателя" />
+          </Key>
+          <Property Name="Код_Преподавателя" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Телефон" Type="nvarchar" MaxLength="13" Nullable="false" />
+          <Property Name="Фамилия" Type="nvarchar" MaxLength="23" Nullable="false" />
+          <Property Name="Имя" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Отчество" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Стаж" Type="int" Nullable="false" />
+          <Property Name="Пол" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Табельный_номер" Type="int" Nullable="false" />
+          <Property Name="ID_Должности" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Справочник_Факультативов">
+          <Key>
+            <PropertyRef Name="Код_Справочника" />
+          </Key>
+          <Property Name="Код_Справочника" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Название" Type="nvarchar" MaxLength="80" Nullable="false" />
+          <Property Name="Часы" Type="int" StoreGeneratedPattern="Computed" />
+          <Property Name="Объём_лекций" Type="int" Nullable="false" />
+          <Property Name="Объём_практик" Type="int" Nullable="false" />
+          <Property Name="Объём_лабораторных_работ" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Студенты">
+          <Key>
+            <PropertyRef Name="Код_студента" />
+          </Key>
+          <Property Name="Код_студента" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Фамилия" Type="nvarchar" MaxLength="23" Nullable="false" />
+          <Property Name="Имя" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Отчество" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Зачётная_книжка" Type="int" Nullable="false" />
+          <Property Name="Адрес" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Телефон" Type="nvarchar" MaxLength="13" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Учебный_план">
+          <Key>
+            <PropertyRef Name="ID_Учебного_плана" />
+          </Key>
+          <Property Name="ID_Учебного_плана" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Оценка" Type="int" Nullable="false" />
+          <Property Name="Дата" Type="date" Nullable="false" />
+          <Property Name="Курс" Type="int" Nullable="false" />
+          <Property Name="Код_факультатива" Type="int" Nullable="false" />
+          <Property Name="Код_студента" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Факультативов_в_семестре">
+          <Key>
+            <PropertyRef Name="Код_Факультатива" />
+          </Key>
+          <Property Name="Код_Факультатива" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Количество_часов" Type="int" StoreGeneratedPattern="Computed" />
+          <Property Name="ЛР" Type="int" Nullable="false" />
+          <Property Name="Практика" Type="int" Nullable="false" />
+          <Property Name="Номер_семестра" Type="int" Nullable="false" />
+          <Property Name="Код_преподавателя" Type="int" Nullable="false" />
+          <Property Name="Код_справочника" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Преподаватель_Должность">
+          <End Role="Должность" Type="Self.Должность" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Преподаватель" Type="Self.Преподаватель" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Должность">
+              <PropertyRef Name="ID_Должности" />
+            </Principal>
+            <Dependent Role="Преподаватель">
+              <PropertyRef Name="ID_Должности" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Учебный_план_Студенты">
+          <End Role="Студенты" Type="Self.Студенты" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Учебный_план" Type="Self.Учебный_план" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Студенты">
+              <PropertyRef Name="Код_студента" />
+            </Principal>
+            <Dependent Role="Учебный_план">
+              <PropertyRef Name="Код_студента" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Учебный_план_Факультативов_в_семестре">
+          <End Role="Факультативов_в_семестре" Type="Self.Факультативов_в_семестре" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Учебный_план" Type="Self.Учебный_план" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Факультативов_в_семестре">
+              <PropertyRef Name="Код_Факультатива" />
+            </Principal>
+            <Dependent Role="Учебный_план">
+              <PropertyRef Name="Код_факультатива" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Факультативов_в_семестре_Преподаватель">
+          <End Role="Преподаватель" Type="Self.Преподаватель" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Факультативов_в_семестре" Type="Self.Факультативов_в_семестре" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Преподаватель">
+              <PropertyRef Name="Код_Преподавателя" />
+            </Principal>
+            <Dependent Role="Факультативов_в_семестре">
+              <PropertyRef Name="Код_преподавателя" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Факультативов_в_семестре_Справочник_Факультативов">
+          <End Role="Справочник_Факультативов" Type="Self.Справочник_Факультативов" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Факультативов_в_семестре" Type="Self.Факультативов_в_семестре" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Справочник_Факультативов">
+              <PropertyRef Name="Код_Справочника" />
+            </Principal>
+            <Dependent Role="Факультативов_в_семестре">
+              <PropertyRef Name="Код_справочника" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище Definition_of_electives_for_studentsModelContainer">
+          <EntitySet Name="Должность" EntityType="Self.Должность" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Преподаватель" EntityType="Self.Преподаватель" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Справочник_Факультативов" EntityType="Self.Справочник_Факультативов" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Студенты" EntityType="Self.Студенты" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Учебный_план" EntityType="Self.Учебный_план" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Факультативов_в_семестре" EntityType="Self.Факультативов_в_семестре" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Преподаватель_Должность" Association="Self.FK_Преподаватель_Должность">
+            <End Role="Должность" EntitySet="Должность" />
+            <End Role="Преподаватель" EntitySet="Преподаватель" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Учебный_план_Студенты" Association="Self.FK_Учебный_план_Студенты">
+            <End Role="Студенты" EntitySet="Студенты" />
+            <End Role="Учебный_план" EntitySet="Учебный_план" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Учебный_план_Факультативов_в_семестре" Association="Self.FK_Учебный_план_Факультативов_в_семестре">
+            <End Role="Факультативов_в_семестре" EntitySet="Факультативов_в_семестре" />
+            <End Role="Учебный_план" EntitySet="Учебный_план" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Факультативов_в_семестре_Преподаватель" Association="Self.FK_Факультативов_в_семестре_Преподаватель">
+            <End Role="Преподаватель" EntitySet="Преподаватель" />
+            <End Role="Факультативов_в_семестре" EntitySet="Факультативов_в_семестре" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Факультативов_в_семестре_Справочник_Факультативов" Association="Self.FK_Факультативов_в_семестре_Справочник_Факультативов">
+            <End Role="Справочник_Факультативов" EntitySet="Справочник_Факультативов" />
+            <End Role="Факультативов_в_семестре" EntitySet="Факультативов_в_семестре" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Definition_of_electives_for_studentsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Должность">
+          <Key>
+            <PropertyRef Name="ID_Должности" />
+          </Key>
+          <Property Name="ID_Должности" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Название" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Оклад" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="Преподаватель" Relationship="Self.FK_Преподаватель_Должность" FromRole="Должность" ToRole="Преподаватель" />
+        </EntityType>
+        <EntityType Name="Преподаватель">
+          <Key>
+            <PropertyRef Name="Код_Преподавателя" />
+          </Key>
+          <Property Name="Код_Преподавателя" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Телефон" Type="String" MaxLength="13" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Фамилия" Type="String" MaxLength="23" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Имя" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Отчество" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Стаж" Type="Int32" Nullable="false" />
+          <Property Name="Пол" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Табельный_номер" Type="Int32" Nullable="false" />
+          <Property Name="ID_Должности" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Должность" Relationship="Self.FK_Преподаватель_Должность" FromRole="Преподаватель" ToRole="Должность" />
+          <NavigationProperty Name="Факультативов_в_семестре" Relationship="Self.FK_Факультативов_в_семестре_Преподаватель" FromRole="Преподаватель" ToRole="Факультативов_в_семестре" />
+        </EntityType>
+        <EntityType Name="Справочник_Факультативов">
+          <Key>
+            <PropertyRef Name="Код_Справочника" />
+          </Key>
+          <Property Name="Код_Справочника" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Название" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Часы" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Объём_лекций" Type="Int32" Nullable="false" />
+          <Property Name="Объём_практик" Type="Int32" Nullable="false" />
+          <Property Name="Объём_лабораторных_работ" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Факультативов_в_семестре" Relationship="Self.FK_Факультативов_в_семестре_Справочник_Факультативов" FromRole="Справочник_Факультативов" ToRole="Факультативов_в_семестре" />
+        </EntityType>
+        <EntityType Name="Студенты">
+          <Key>
+            <PropertyRef Name="Код_студента" />
+          </Key>
+          <Property Name="Код_студента" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Фамилия" Type="String" MaxLength="23" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Имя" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Отчество" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Зачётная_книжка" Type="Int32" Nullable="false" />
+          <Property Name="Адрес" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Телефон" Type="String" MaxLength="13" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Учебный_план" Relationship="Self.FK_Учебный_план_Студенты" FromRole="Студенты" ToRole="Учебный_план" />
+        </EntityType>
+        <EntityType Name="Учебный_план">
+          <Key>
+            <PropertyRef Name="ID_Учебного_плана" />
+          </Key>
+          <Property Name="ID_Учебного_плана" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Оценка" Type="Int32" Nullable="false" />
+          <Property Name="Дата" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Курс" Type="Int32" Nullable="false" />
+          <Property Name="Код_факультатива" Type="Int32" Nullable="false" />
+          <Property Name="Код_студента" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Студенты" Relationship="Self.FK_Учебный_план_Студенты" FromRole="Учебный_план" ToRole="Студенты" />
+          <NavigationProperty Name="Факультативов_в_семестре" Relationship="Self.FK_Учебный_план_Факультативов_в_семестре" FromRole="Учебный_план" ToRole="Факультативов_в_семестре" />
+        </EntityType>
+        <EntityType Name="Факультативов_в_семестре">
+          <Key>
+            <PropertyRef Name="Код_Факультатива" />
+          </Key>
+          <Property Name="Код_Факультатива" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Количество_часов" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="ЛР" Type="Int32" Nullable="false" />
+          <Property Name="Практика" Type="Int32" Nullable="false" />
+          <Property Name="Номер_семестра" Type="Int32" Nullable="false" />
+          <Property Name="Код_преподавателя" Type="Int32" Nullable="false" />
+          <Property Name="Код_справочника" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Преподаватель" Relationship="Self.FK_Факультативов_в_семестре_Преподаватель" FromRole="Факультативов_в_семестре" ToRole="Преподаватель" />
+          <NavigationProperty Name="Справочник_Факультативов" Relationship="Self.FK_Факультативов_в_семестре_Справочник_Факультативов" FromRole="Факультативов_в_семестре" ToRole="Справочник_Факультативов" />
+          <NavigationProperty Name="Учебный_план" Relationship="Self.FK_Учебный_план_Факультативов_в_семестре" FromRole="Факультативов_в_семестре" ToRole="Учебный_план" />
+        </EntityType>
+        <Association Name="FK_Преподаватель_Должность">
+          <End Role="Должность" Type="Self.Должность" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Преподаватель" Type="Self.Преподаватель" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Должность">
+              <PropertyRef Name="ID_Должности" />
+            </Principal>
+            <Dependent Role="Преподаватель">
+              <PropertyRef Name="ID_Должности" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Факультативов_в_семестре_Преподаватель">
+          <End Role="Преподаватель" Type="Self.Преподаватель" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Факультативов_в_семестре" Type="Self.Факультативов_в_семестре" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Преподаватель">
+              <PropertyRef Name="Код_Преподавателя" />
+            </Principal>
+            <Dependent Role="Факультативов_в_семестре">
+              <PropertyRef Name="Код_преподавателя" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Факультативов_в_семестре_Справочник_Факультативов">
+          <End Role="Справочник_Факультативов" Type="Self.Справочник_Факультативов" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Факультативов_в_семестре" Type="Self.Факультативов_в_семестре" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Справочник_Факультативов">
+              <PropertyRef Name="Код_Справочника" />
+            </Principal>
+            <Dependent Role="Факультативов_в_семестре">
+              <PropertyRef Name="Код_справочника" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Учебный_план_Студенты">
+          <End Role="Студенты" Type="Self.Студенты" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Учебный_план" Type="Self.Учебный_план" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Студенты">
+              <PropertyRef Name="Код_студента" />
+            </Principal>
+            <Dependent Role="Учебный_план">
+              <PropertyRef Name="Код_студента" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Учебный_план_Факультативов_в_семестре">
+          <End Role="Факультативов_в_семестре" Type="Self.Факультативов_в_семестре" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Учебный_план" Type="Self.Учебный_план" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Факультативов_в_семестре">
+              <PropertyRef Name="Код_Факультатива" />
+            </Principal>
+            <Dependent Role="Учебный_план">
+              <PropertyRef Name="Код_факультатива" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ElectivesEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Должность" EntityType="Self.Должность" />
+          <EntitySet Name="Преподаватель" EntityType="Self.Преподаватель" />
+          <EntitySet Name="Справочник_Факультативов" EntityType="Self.Справочник_Факультативов" />
+          <EntitySet Name="Студенты" EntityType="Self.Студенты" />
+          <EntitySet Name="Учебный_план" EntityType="Self.Учебный_план" />
+          <EntitySet Name="Факультативов_в_семестре" EntityType="Self.Факультативов_в_семестре" />
+          <AssociationSet Name="FK_Преподаватель_Должность" Association="Self.FK_Преподаватель_Должность">
+            <End Role="Должность" EntitySet="Должность" />
+            <End Role="Преподаватель" EntitySet="Преподаватель" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Факультативов_в_семестре_Преподаватель" Association="Self.FK_Факультативов_в_семестре_Преподаватель">
+            <End Role="Преподаватель" EntitySet="Преподаватель" />
+            <End Role="Факультативов_в_семестре" EntitySet="Факультативов_в_семестре" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Факультативов_в_семестре_Справочник_Факультативов" Association="Self.FK_Факультативов_в_семестре_Справочник_Факультативов">
+            <End Role="Справочник_Факультативов" EntitySet="Справочник_Факультативов" />
+            <End Role="Факультативов_в_семестре" EntitySet="Факультативов_в_семестре" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Учебный_план_Студенты" Association="Self.FK_Учебный_план_Студенты">
+            <End Role="Студенты" EntitySet="Студенты" />
+            <End Role="Учебный_план" EntitySet="Учебный_план" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Учебный_план_Факультативов_в_семестре" Association="Self.FK_Учебный_план_Факультативов_в_семестре">
+            <End Role="Факультативов_в_семестре" EntitySet="Факультативов_в_семестре" />
+            <End Role="Учебный_план" EntitySet="Учебный_план" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище Definition_of_electives_for_studentsModelContainer" CdmEntityContainer="ElectivesEntities">
+          <EntitySetMapping Name="Должность">
+            <EntityTypeMapping TypeName="Definition_of_electives_for_studentsModel.Должность">
+              <MappingFragment StoreEntitySet="Должность">
+                <ScalarProperty Name="ID_Должности" ColumnName="ID_Должности" />
+                <ScalarProperty Name="Название" ColumnName="Название" />
+                <ScalarProperty Name="Оклад" ColumnName="Оклад" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Преподаватель">
+            <EntityTypeMapping TypeName="Definition_of_electives_for_studentsModel.Преподаватель">
+              <MappingFragment StoreEntitySet="Преподаватель">
+                <ScalarProperty Name="Код_Преподавателя" ColumnName="Код_Преподавателя" />
+                <ScalarProperty Name="Телефон" ColumnName="Телефон" />
+                <ScalarProperty Name="Фамилия" ColumnName="Фамилия" />
+                <ScalarProperty Name="Имя" ColumnName="Имя" />
+                <ScalarProperty Name="Отчество" ColumnName="Отчество" />
+                <ScalarProperty Name="Стаж" ColumnName="Стаж" />
+                <ScalarProperty Name="Пол" ColumnName="Пол" />
+                <ScalarProperty Name="Табельный_номер" ColumnName="Табельный_номер" />
+                <ScalarProperty Name="ID_Должности" ColumnName="ID_Должности" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Справочник_Факультативов">
+            <EntityTypeMapping TypeName="Definition_of_electives_for_studentsModel.Справочник_Факультативов">
+              <MappingFragment StoreEntitySet="Справочник_Факультативов">
+                <ScalarProperty Name="Код_Справочника" ColumnName="Код_Справочника" />
+                <ScalarProperty Name="Название" ColumnName="Название" />
+                <ScalarProperty Name="Часы" ColumnName="Часы" />
+                <ScalarProperty Name="Объём_лекций" ColumnName="Объём_лекций" />
+                <ScalarProperty Name="Объём_практик" ColumnName="Объём_практик" />
+                <ScalarProperty Name="Объём_лабораторных_работ" ColumnName="Объём_лабораторных_работ" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Студенты">
+            <EntityTypeMapping TypeName="Definition_of_electives_for_studentsModel.Студенты">
+              <MappingFragment StoreEntitySet="Студенты">
+                <ScalarProperty Name="Код_студента" ColumnName="Код_студента" />
+                <ScalarProperty Name="Фамилия" ColumnName="Фамилия" />
+                <ScalarProperty Name="Имя" ColumnName="Имя" />
+                <ScalarProperty Name="Отчество" ColumnName="Отчество" />
+                <ScalarProperty Name="Зачётная_книжка" ColumnName="Зачётная_книжка" />
+                <ScalarProperty Name="Адрес" ColumnName="Адрес" />
+                <ScalarProperty Name="Телефон" ColumnName="Телефон" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Учебный_план">
+            <EntityTypeMapping TypeName="Definition_of_electives_for_studentsModel.Учебный_план">
+              <MappingFragment StoreEntitySet="Учебный_план">
+                <ScalarProperty Name="ID_Учебного_плана" ColumnName="ID_Учебного_плана" />
+                <ScalarProperty Name="Оценка" ColumnName="Оценка" />
+                <ScalarProperty Name="Дата" ColumnName="Дата" />
+                <ScalarProperty Name="Курс" ColumnName="Курс" />
+                <ScalarProperty Name="Код_факультатива" ColumnName="Код_факультатива" />
+                <ScalarProperty Name="Код_студента" ColumnName="Код_студента" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Факультативов_в_семестре">
+            <EntityTypeMapping TypeName="Definition_of_electives_for_studentsModel.Факультативов_в_семестре">
+              <MappingFragment StoreEntitySet="Факультативов_в_семестре">
+                <ScalarProperty Name="Код_Факультатива" ColumnName="Код_Факультатива" />
+                <ScalarProperty Name="Количество_часов" ColumnName="Количество_часов" />
+                <ScalarProperty Name="ЛР" ColumnName="ЛР" />
+                <ScalarProperty Name="Практика" ColumnName="Практика" />
+                <ScalarProperty Name="Номер_семестра" ColumnName="Номер_семестра" />
+                <ScalarProperty Name="Код_преподавателя" ColumnName="Код_преподавателя" />
+                <ScalarProperty Name="Код_справочника" ColumnName="Код_справочника" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
