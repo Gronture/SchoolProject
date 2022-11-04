@@ -91,6 +91,9 @@
     <Compile Include="EditDirectory.xaml.cs">
       <DependentUpon>EditDirectory.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EditEducationPlan.xaml.cs">
+      <DependentUpon>EditEducationPlan.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EditElective.xaml.cs">
       <DependentUpon>EditElective.xaml</DependentUpon>
     </Compile>
@@ -180,6 +183,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="EditDirectory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditEducationPlan.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

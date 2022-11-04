@@ -105,5 +105,12 @@ namespace SchoolProject
             this.Close();
 
         }
+
+        private void Redact_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = grid.SelectedItem as EducationPlanUpd;
+            new EditEducationPlan(selectedItem).Show();
+            this.Close();
+        }
     }
 }
