@@ -11,8 +11,8 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding ФамилияСтудента}" Header="Фамилия студента" Width="150" FontFamily="Times New Roman"/>
                 <DataGridTextColumn Binding="{Binding НазваниеФакультатива}" Header="Название факультатива" Width="250" FontFamily="Times New Roman"/>
-                <DataGridTextColumn Binding="{Binding Курс}" Header="Оценка" Width="50" FontFamily="Times New Roman"/>
-                <DataGridTextColumn Binding="{Binding Оценка}" Header="Курс" Width="50" FontFamily="Times New Roman"/>
+                <DataGridTextColumn Binding="{Binding Оценка}" Header="Оценка" Width="50" FontFamily="Times New Roman"/>
+                <DataGridTextColumn Binding="{Binding Курс}" Header="Курс" Width="50" FontFamily="Times New Roman"/>
                 <DataGridTextColumn Binding="{Binding Дата}" Header="Дата" Width="125" FontFamily="Times New Roman"/>
             </DataGrid.Columns>
         </DataGrid>

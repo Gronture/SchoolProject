@@ -91,11 +91,17 @@
     <Compile Include="EditDirectory.xaml.cs">
       <DependentUpon>EditDirectory.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EditElective.xaml.cs">
+      <DependentUpon>EditElective.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EditPosition.xaml.cs">
       <DependentUpon>EditPosition.xaml</DependentUpon>
     </Compile>
     <Compile Include="EditStudent.xaml.cs">
       <DependentUpon>EditStudent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EditTeacher.xaml.cs">
+      <DependentUpon>EditTeacher.xaml</DependentUpon>
     </Compile>
     <Compile Include="EducationPlaneView.xaml.cs">
       <DependentUpon>EducationPlaneView.xaml</DependentUpon>
@@ -177,11 +183,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="EditElective.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="EditPosition.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="EditStudent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditTeacher.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

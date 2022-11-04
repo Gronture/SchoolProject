@@ -17,7 +17,8 @@
                 <DataGridTextColumn Binding="{Binding Номер_семестра}" Header="Номер семестра" Width="100" FontFamily="Times New Roman"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="Add" Content="Добавить" Margin="21,310,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Click="Add_Click"/>
+        <Button x:Name="Add" Content="Добавить" Margin="21,270,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Click="Add_Click"/>
+        <Button x:Name="Redact" Content="Изменить" Margin="21,310,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Click="Redact_Click"/>
         <Button x:Name="Delete" Content="Удалить" Margin="21,350,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Click="Delete_Click"/>
         <Button x:Name="BackMenu" Content="Назад" HorizontalAlignment="Left" Margin="21,390,0,0" VerticalAlignment="Top" Click="BackMenu_Click"/>
     </Grid>

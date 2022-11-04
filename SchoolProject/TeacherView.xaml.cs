@@ -86,5 +86,12 @@ namespace SchoolProject
             new AddTeacher().Show();
             this.Close();
         }
+
+        private void Redact_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = grid.SelectedItem as TeacherUpd;
+            new EditTeacher(selectedItem).Show();
+            this.Close();
+        }
     }
 }

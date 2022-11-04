@@ -98,5 +98,12 @@ namespace SchoolProject
             new AddElective().Show();
             this.Close();
         }
+
+        private void Redact_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = grid.SelectedItem as ElectivesUpd;
+            new EditElective(selectedItem).Show();
+            this.Close();
+        }
     }
 }
