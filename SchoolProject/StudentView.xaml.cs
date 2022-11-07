@@ -25,8 +25,15 @@ namespace SchoolProject
             InitializeComponent();
             UpdateView();
         }
-        
 
+        public List<Студенты> GetStudent()
+        {
+            using (ElectivesEntities db = new ElectivesEntities())
+            {
+                var returnList = db.Студенты.ToList();
+                return returnList;
+            }
+        }
         public void UpdateView()
         {
             using(ElectivesEntities db = new ElectivesEntities())
@@ -65,6 +72,12 @@ namespace SchoolProject
             var selectedItem = grid.SelectedItem as Студенты;
             new EditStudent(selectedItem).Show();
             this.Close();
+        }
+
+        private void SortTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var list = GetStudent();
+            grid.ItemsSource = list.Where(x => x.Фамилия.ToLower().Contains(SortTextBox.Text)).ToList();
         }
     }
 }

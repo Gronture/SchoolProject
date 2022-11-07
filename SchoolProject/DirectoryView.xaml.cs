@@ -32,6 +32,15 @@ namespace SchoolProject
             }
         }
 
+        public List<Справочник_Факультативов> GetDirectory()
+        {
+            using (ElectivesEntities db = new ElectivesEntities())
+            {
+                var returnList = db.Справочник_Факультативов.ToList();
+                return returnList;
+            }
+        }
+
         private void BackMenu_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = new MainWindow();
@@ -62,6 +71,13 @@ namespace SchoolProject
             var selectedItem = grid.SelectedItem as Справочник_Факультативов;
             new EditDirectory(selectedItem).Show();
             this.Close();
+        }
+
+        private void SortTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+            var list = GetDirectory();
+            grid.ItemsSource = list.Where(x => x.Название.ToLower().Contains(SortTextBox.Text)).ToList();
         }
     }
 }

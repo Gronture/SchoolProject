@@ -23,5 +23,6 @@
         <Button x:Name="Redact" Content="Изменить" Margin="21,310,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Click="Redact_Click"/>
         <Button x:Name="Delete" Content="Удалить" Margin="21,350,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Click="Delete_Click"/>
         <Button x:Name="BackMenu" Content="Назад" HorizontalAlignment="Left" Margin="21,390,0,0" VerticalAlignment="Top" Click="BackMenu_Click"/>
+        <TextBox x:Name="SortTextBox" HorizontalAlignment="Left" Margin="21,230,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="SortTextBox_TextChanged"/>
     </Grid>
 </Window>

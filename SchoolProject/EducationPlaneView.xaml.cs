@@ -112,5 +112,12 @@ namespace SchoolProject
             new EditEducationPlan(selectedItem).Show();
             this.Close();
         }
+
+        private void SortTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+            var list = GetPlan();
+            grid.ItemsSource = list.Where(x => x.НазваниеФакультатива.ToLower().Contains(SortTextBox.Text)).ToList();
+        }
     }
 }

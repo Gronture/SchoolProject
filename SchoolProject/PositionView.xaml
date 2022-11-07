@@ -5,18 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SchoolProject"
         mc:Ignorable="d"
-        Title="Должность" Height="450" Width="975">
+        Title="Должность" Height="450" Width="450">
     <Grid>
-        <DataGrid AutoGenerateColumns="False" x:Name="grid" FontFamily="Times New Roman" Margin="750,0,0,0">
+        <DataGrid AutoGenerateColumns="False" x:Name="grid" FontFamily="Times New Roman" Margin="200,0,0,0">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Название}" Header="Название" Width="120" FontFamily="Times New Roman"/>
-                <DataGridTextColumn Binding="{Binding Оклад}" Header="Оклад" Width="125" FontFamily="Times New Roman"/>
+                <DataGridTextColumn Binding="{Binding Оклад}" Header="Оклад" Width="100" FontFamily="Times New Roman"/>
             </DataGrid.Columns>
         </DataGrid>
         <Button x:Name="Add" Content="Добавить" Margin="21,270,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Click="Add_Click"/>
         <Button x:Name="Redact" Content="Изменить" Margin="21,310,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Click="Redact_Click"/>
         <Button x:Name="Delete" Content="Удалить" Margin="21,350,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Click="Delete_Click"/>
         <Button x:Name="BackMenu" Content="Назад" HorizontalAlignment="Left" Margin="21,390,0,0" VerticalAlignment="Top" Click="BackMenu_Click"/>
+        <TextBox x:Name="SortTextBox" HorizontalAlignment="Left" Margin="21,230,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="SortTextBox_TextChanged"/>
 
     </Grid>
 </Window>

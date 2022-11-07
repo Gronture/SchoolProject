@@ -26,6 +26,7 @@ namespace SchoolProject
             UpdateView();
         }
 
+
         public void UpdateView()
         {
             using(ElectivesEntities db = new ElectivesEntities())
@@ -92,6 +93,13 @@ namespace SchoolProject
             var selectedItem = grid.SelectedItem as TeacherUpd;
             new EditTeacher(selectedItem).Show();
             this.Close();
+        }
+
+        private void SortTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var list = GetTeacher();
+            grid.ItemsSource = list.Where(x => x.Фамилия.ToLower().Contains(SortTextBox.Text)).ToList();
+
         }
     }
 }

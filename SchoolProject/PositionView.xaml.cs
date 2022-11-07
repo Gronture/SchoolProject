@@ -32,6 +32,14 @@ namespace SchoolProject
                 grid.ItemsSource = db.Должность.ToList();
             }
         }
+        public List<Должность> GetPosition()
+        {
+            using (ElectivesEntities db = new ElectivesEntities())
+            {
+                var returnList = db.Должность.ToList();
+                return returnList;
+            }
+        }
 
         private void BackMenu_Click(object sender, RoutedEventArgs e)
         {
@@ -63,6 +71,12 @@ namespace SchoolProject
             var selectedItem = grid.SelectedItem as Должность;
             new EditPosition(selectedItem).Show();
             this.Close();
+        }
+
+        private void SortTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var list = GetPosition();
+            grid.ItemsSource = list.Where(x => x.Название.ToLower().Contains(SortTextBox.Text)).ToList();
         }
     }
 }
