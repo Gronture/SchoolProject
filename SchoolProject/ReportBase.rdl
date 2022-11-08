@@ -1,0 +1,870 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report MustUnderstand="df" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:df="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition/defaultfontfamily">
+  <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource1">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>Data Source=DESKTOP-5A61DP7\SQLEXPRESS;Initial Catalog=Definition_of_electives_for_students</ConnectString>
+        <IntegratedSecurity>true</IntegratedSecurity>
+      </ConnectionProperties>
+      <rd:SecurityType>Integrated</rd:SecurityType>
+      <rd:DataSourceID>b4ba4d61-7de6-485c-afba-1e87166be2a9</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="DataSet1">
+      <Query>
+        <DataSourceName>DataSource1</DataSourceName>
+        <CommandText>SELECT
+  Должность.ID_Должности AS [Должность ID_Должности]
+  ,Должность.Название AS [Должность Название]
+  ,Должность.Оклад
+  ,Преподаватель.Код_Преподавателя AS [Преподаватель Код_Преподавателя]
+  ,Преподаватель.Телефон AS [Преподаватель Телефон]
+  ,Преподаватель.Фамилия AS [Преподаватель Фамилия]
+  ,Преподаватель.Имя AS [Преподаватель Имя]
+  ,Преподаватель.Отчество AS [Преподаватель Отчество]
+  ,Преподаватель.Стаж
+  ,Преподаватель.Пол
+  ,Преподаватель.Табельный_номер
+  ,Преподаватель.ID_Должности AS [Преподаватель ID_Должности]
+  ,Справочник_Факультативов.Код_Справочника AS [Справочник_Факультативов Код_Справочника]
+  ,Справочник_Факультативов.Название AS [Справочник_Факультативов Название]
+  ,Справочник_Факультативов.Часы
+  ,Справочник_Факультативов.Объём_лекций
+  ,Справочник_Факультативов.Объём_практик
+  ,Справочник_Факультативов.Объём_лабораторных_работ
+  ,Студенты.Код_студента AS [Студенты Код_студента]
+  ,Студенты.Фамилия AS [Студенты Фамилия]
+  ,Студенты.Имя AS [Студенты Имя]
+  ,Студенты.Отчество AS [Студенты Отчество]
+  ,Студенты.Зачётная_книжка
+  ,Студенты.Адрес
+  ,Студенты.Телефон AS [Студенты Телефон]
+  ,Учебный_план.ID_Учебного_плана
+  ,Учебный_план.Оценка
+  ,Учебный_план.Дата
+  ,Учебный_план.Курс
+  ,Учебный_план.Код_факультатива AS [Учебный_план Код_факультатива]
+  ,Учебный_план.Код_студента AS [Учебный_план Код_студента]
+  ,Факультативов_в_семестре.Код_Факультатива AS [Факультативов_в_семестре Код_Факультатива]
+  ,Факультативов_в_семестре.Количество_часов
+  ,Факультативов_в_семестре.ЛР
+  ,Факультативов_в_семестре.Практика
+  ,Факультативов_в_семестре.Номер_семестра
+  ,Факультативов_в_семестре.Код_преподавателя AS [Факультативов_в_семестре Код_преподавателя]
+  ,Факультативов_в_семестре.Код_справочника AS [Факультативов_в_семестре Код_справочника]
+FROM
+  Преподаватель
+  INNER JOIN Должность
+    ON Преподаватель.ID_Должности = Должность.ID_Должности
+  INNER JOIN Факультативов_в_семестре
+    ON Преподаватель.Код_Преподавателя = Факультативов_в_семестре.Код_преподавателя
+  INNER JOIN Справочник_Факультативов
+    ON Факультативов_в_семестре.Код_справочника = Справочник_Факультативов.Код_Справочника
+  INNER JOIN Учебный_план
+    ON Факультативов_в_семестре.Код_Факультатива = Учебный_план.Код_факультатива
+  INNER JOIN Студенты
+    ON Учебный_план.Код_студента = Студенты.Код_студента</CommandText>
+        <rd:DesignerState>
+          <QueryDefinition xmlns="http://schemas.microsoft.com/ReportingServices/QueryDefinition/Relational">
+            <SelectedColumns>
+              <ColumnExpression ColumnOwner="Должность" ColumnName="ID_Должности" />
+              <ColumnExpression ColumnOwner="Должность" ColumnName="Название" />
+              <ColumnExpression ColumnOwner="Должность" ColumnName="Оклад" />
+              <ColumnExpression ColumnOwner="Преподаватель" ColumnName="Код_Преподавателя" />
+              <ColumnExpression ColumnOwner="Преподаватель" ColumnName="Телефон" />
+              <ColumnExpression ColumnOwner="Преподаватель" ColumnName="Фамилия" />
+              <ColumnExpression ColumnOwner="Преподаватель" ColumnName="Имя" />
+              <ColumnExpression ColumnOwner="Преподаватель" ColumnName="Отчество" />
+              <ColumnExpression ColumnOwner="Преподаватель" ColumnName="Стаж" />
+              <ColumnExpression ColumnOwner="Преподаватель" ColumnName="Пол" />
+              <ColumnExpression ColumnOwner="Преподаватель" ColumnName="Табельный_номер" />
+              <ColumnExpression ColumnOwner="Преподаватель" ColumnName="ID_Должности" />
+              <ColumnExpression ColumnOwner="Справочник_Факультативов" ColumnName="Код_Справочника" />
+              <ColumnExpression ColumnOwner="Справочник_Факультативов" ColumnName="Название" />
+              <ColumnExpression ColumnOwner="Справочник_Факультативов" ColumnName="Часы" />
+              <ColumnExpression ColumnOwner="Справочник_Факультативов" ColumnName="Объём_лекций" />
+              <ColumnExpression ColumnOwner="Справочник_Факультативов" ColumnName="Объём_практик" />
+              <ColumnExpression ColumnOwner="Справочник_Факультативов" ColumnName="Объём_лабораторных_работ" />
+              <ColumnExpression ColumnOwner="Студенты" ColumnName="Код_студента" />
+              <ColumnExpression ColumnOwner="Студенты" ColumnName="Фамилия" />
+              <ColumnExpression ColumnOwner="Студенты" ColumnName="Имя" />
+              <ColumnExpression ColumnOwner="Студенты" ColumnName="Отчество" />
+              <ColumnExpression ColumnOwner="Студенты" ColumnName="Зачётная_книжка" />
+              <ColumnExpression ColumnOwner="Студенты" ColumnName="Адрес" />
+              <ColumnExpression ColumnOwner="Студенты" ColumnName="Телефон" />
+              <ColumnExpression ColumnOwner="Учебный_план" ColumnName="ID_Учебного_плана" />
+              <ColumnExpression ColumnOwner="Учебный_план" ColumnName="Оценка" />
+              <ColumnExpression ColumnOwner="Учебный_план" ColumnName="Дата" />
+              <ColumnExpression ColumnOwner="Учебный_план" ColumnName="Курс" />
+              <ColumnExpression ColumnOwner="Учебный_план" ColumnName="Код_факультатива" />
+              <ColumnExpression ColumnOwner="Учебный_план" ColumnName="Код_студента" />
+              <ColumnExpression ColumnOwner="Факультативов_в_семестре" ColumnName="Код_Факультатива" />
+              <ColumnExpression ColumnOwner="Факультативов_в_семестре" ColumnName="Количество_часов" />
+              <ColumnExpression ColumnOwner="Факультативов_в_семестре" ColumnName="ЛР" />
+              <ColumnExpression ColumnOwner="Факультативов_в_семестре" ColumnName="Практика" />
+              <ColumnExpression ColumnOwner="Факультативов_в_семестре" ColumnName="Номер_семестра" />
+              <ColumnExpression ColumnOwner="Факультативов_в_семестре" ColumnName="Код_преподавателя" />
+              <ColumnExpression ColumnOwner="Факультативов_в_семестре" ColumnName="Код_справочника" />
+            </SelectedColumns>
+            <Joins>
+              <Join Type="CROSS JOIN" ColumnOwner="Преподаватель" />
+              <Join Type="INNER JOIN" ColumnOwner="Должность">
+                <On>
+                  <From ColumnOwner="Преподаватель" ColumnName="ID_Должности" />
+                  <To ColumnOwner="Должность" ColumnName="ID_Должности" />
+                </On>
+              </Join>
+              <Join Type="INNER JOIN" ColumnOwner="Факультативов_в_семестре">
+                <On>
+                  <From ColumnOwner="Преподаватель" ColumnName="Код_Преподавателя" />
+                  <To ColumnOwner="Факультативов_в_семестре" ColumnName="Код_преподавателя" />
+                </On>
+              </Join>
+              <Join Type="INNER JOIN" ColumnOwner="Справочник_Факультативов">
+                <On>
+                  <From ColumnOwner="Факультативов_в_семестре" ColumnName="Код_справочника" />
+                  <To ColumnOwner="Справочник_Факультативов" ColumnName="Код_Справочника" />
+                </On>
+              </Join>
+              <Join Type="INNER JOIN" ColumnOwner="Учебный_план">
+                <On>
+                  <From ColumnOwner="Факультативов_в_семестре" ColumnName="Код_Факультатива" />
+                  <To ColumnOwner="Учебный_план" ColumnName="Код_факультатива" />
+                </On>
+              </Join>
+              <Join Type="INNER JOIN" ColumnOwner="Студенты">
+                <On>
+                  <From ColumnOwner="Учебный_план" ColumnName="Код_студента" />
+                  <To ColumnOwner="Студенты" ColumnName="Код_студента" />
+                </On>
+              </Join>
+            </Joins>
+          </QueryDefinition>
+        </rd:DesignerState>
+      </Query>
+      <Fields>
+        <Field Name="Должность_ID_Должности">
+          <DataField>Должность ID_Должности</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Должность_Название">
+          <DataField>Должность Название</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Оклад">
+          <DataField>Оклад</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Преподаватель_Код_Преподавателя">
+          <DataField>Преподаватель Код_Преподавателя</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Преподаватель_Телефон">
+          <DataField>Преподаватель Телефон</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Преподаватель_Фамилия">
+          <DataField>Преподаватель Фамилия</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Преподаватель_Имя">
+          <DataField>Преподаватель Имя</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Преподаватель_Отчество">
+          <DataField>Преподаватель Отчество</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Стаж">
+          <DataField>Стаж</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Пол">
+          <DataField>Пол</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Табельный_номер">
+          <DataField>Табельный_номер</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Преподаватель_ID_Должности">
+          <DataField>Преподаватель ID_Должности</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Справочник_Факультативов_Код_Справочника">
+          <DataField>Справочник_Факультативов Код_Справочника</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Справочник_Факультативов_Название">
+          <DataField>Справочник_Факультативов Название</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Часы">
+          <DataField>Часы</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Объём_лекций">
+          <DataField>Объём_лекций</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Объём_практик">
+          <DataField>Объём_практик</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Объём_лабораторных_работ">
+          <DataField>Объём_лабораторных_работ</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Студенты_Код_студента">
+          <DataField>Студенты Код_студента</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Студенты_Фамилия">
+          <DataField>Студенты Фамилия</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Студенты_Имя">
+          <DataField>Студенты Имя</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Студенты_Отчество">
+          <DataField>Студенты Отчество</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Зачётная_книжка">
+          <DataField>Зачётная_книжка</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Адрес">
+          <DataField>Адрес</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Студенты_Телефон">
+          <DataField>Студенты Телефон</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ID_Учебного_плана">
+          <DataField>ID_Учебного_плана</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Оценка">
+          <DataField>Оценка</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Дата">
+          <DataField>Дата</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="Курс">
+          <DataField>Курс</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Учебный_план_Код_факультатива">
+          <DataField>Учебный_план Код_факультатива</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Учебный_план_Код_студента">
+          <DataField>Учебный_план Код_студента</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Факультативов_в_семестре_Код_Факультатива">
+          <DataField>Факультативов_в_семестре Код_Факультатива</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Количество_часов">
+          <DataField>Количество_часов</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="ЛР">
+          <DataField>ЛР</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Практика">
+          <DataField>Практика</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Номер_семестра">
+          <DataField>Номер_семестра</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Факультативов_в_семестре_Код_преподавателя">
+          <DataField>Факультативов_в_семестре Код_преподавателя</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Факультативов_в_семестре_Код_справочника">
+          <DataField>Факультативов_в_семестре Код_справочника</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Textbox Name="ReportTitle">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Факультативы</Value>
+                    <Style>
+                      <FontFamily>Times New Roman</FontFamily>
+                      <FontSize>16pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:WatermarkTextbox>Title</rd:WatermarkTextbox>
+            <rd:DefaultName>ReportTitle</rd:DefaultName>
+            <Top>7.62mm</Top>
+            <Left>2.05317cm</Left>
+            <Height>8.67833mm</Height>
+            <Width>36.40667mm</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Tablix Name="Tablix1">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>32.62mm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>25mm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>25mm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>25mm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>25mm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>25mm</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>9.81mm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox1">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Справочник Факультативов Название</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>12pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox1</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox11">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Часы</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>12pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox11</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox3">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Преподаватель Фамилия</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>12pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox3</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox5">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Преподаватель Имя</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>12pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox5</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox7">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Преподаватель Отчество</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>12pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox7</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox13">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Должность Название</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                    <FontSize>12pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox13</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>10.02166mm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Справочник_Факультативов_Название">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Справочник_Факультативов_Название.Value</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Справочник_Факультативов_Название</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Часы1">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Часы.Value</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Часы1</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Преподаватель_Фамилия">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Преподаватель_Фамилия.Value</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Преподаватель_Фамилия</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Преподаватель_Имя">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Преподаватель_Имя.Value</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Преподаватель_Имя</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Преподаватель_Отчество">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Преподаватель_Отчество.Value</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Преподаватель_Отчество</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Должность_Название">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Должность_Название.Value</Value>
+                                  <Style>
+                                    <FontFamily>Times New Roman</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Должность_Название</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <KeepWithGroup>After</KeepWithGroup>
+                </TablixMember>
+                <TablixMember>
+                  <Group Name="Details" />
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <DataSetName>DataSet1</DataSetName>
+            <Top>27.432mm</Top>
+            <Left>16.84867mm</Left>
+            <Height>19.83167mm</Height>
+            <Width>157.62mm</Width>
+            <ZIndex>1</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Tablix>
+        </ReportItems>
+        <Height>88.68833mm</Height>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Body>
+      <Width>245.95665mm</Width>
+      <Page>
+        <PageFooter>
+          <Height>54.61mm</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </PageFooter>
+        <PageHeight>29.7cm</PageHeight>
+        <PageWidth>21cm</PageWidth>
+        <LeftMargin>2cm</LeftMargin>
+        <RightMargin>2cm</RightMargin>
+        <TopMargin>2cm</TopMargin>
+        <BottomMargin>2cm</BottomMargin>
+        <ColumnSpacing>0.13cm</ColumnSpacing>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParametersLayout>
+    <GridLayoutDefinition>
+      <NumberOfColumns>4</NumberOfColumns>
+      <NumberOfRows>2</NumberOfRows>
+    </GridLayoutDefinition>
+  </ReportParametersLayout>
+  <rd:ReportUnitType>Mm</rd:ReportUnitType>
+  <rd:ReportID>81c6ca1c-5c65-4de3-a9d3-3a35c92b4451</rd:ReportID>
+</Report>

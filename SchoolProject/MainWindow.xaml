@@ -8,12 +8,12 @@
         Title="Факультативы для студентов" Height="350" Width="375" FontFamily="Times New Roman">
     <Grid Opacity="0.955" Loaded="Grid_Loaded">
         <Label x:Name="NameMenu" Content="Меню" Margin="146,-1,0,0" VerticalAlignment="Top" Height="27" Width="60" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" FontFamily="Times New Roman" FontSize="16"/>
-        <Button x:Name="Students" Content="Студенты" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,84,0,0" Height="22" Width="58" FontFamily="Times New Roman" Click="Students_Click"/>
-        <Button x:Name="EducationPlane" Content="Учебный план" HorizontalAlignment="Left" Margin="10,121,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" Click="EducationPlane_Click"/>
-        <Button x:Name="Electives" Content="Факультативы в семестре" HorizontalAlignment="Left" Margin="10,157,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" Click="Electives_Click"/>
-        <Button x:Name="Directory" Content="Справочник факультитвов" HorizontalAlignment="Left" Margin="10,193,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" Click="Directory_Click"/>
-        <Button x:Name="Teacher" Content="Преподаватели" HorizontalAlignment="Left" Margin="10,227,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" Click="Teacher_Click"/>
-        <Button x:Name="Position" Content="Должность" HorizontalAlignment="Left" Margin="10,257,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" Click="Position_Click"/>
-
+        <Button x:Name="Students" Content="Студенты" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,100,0,0" Height="22" Width="58" FontFamily="Times New Roman" Click="Students_Click"/>
+        <Button x:Name="EducationPlane" Content="Учебный план" HorizontalAlignment="Left" Margin="10,130,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" Click="EducationPlane_Click"/>
+        <Button x:Name="Electives" Content="Факультативы в семестре" HorizontalAlignment="Left" Margin="10,160,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" Click="Electives_Click"/>
+        <Button x:Name="Directory" Content="Справочник факультитвов" HorizontalAlignment="Left" Margin="10,190,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" Click="Directory_Click"/>
+        <Button x:Name="Teacher" Content="Преподаватели" HorizontalAlignment="Left" Margin="10,220,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" Click="Teacher_Click"/>
+        <Button x:Name="Position" Content="Должность" HorizontalAlignment="Left" Margin="10,250,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" Click="Position_Click"/>
+        <Button x:Name="Report" Content="Отчёт" HorizontalAlignment="Left" Margin="300,250,0,0" VerticalAlignment="Top" Click="Report_Click"/>
     </Grid>
 </Window>

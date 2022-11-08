@@ -24,6 +24,7 @@ namespace SchoolProject
         {
             InitializeComponent();
             UpdateView();
+            UpdateComboBox();
         }
         public void UpdateView()
         {
@@ -74,6 +75,19 @@ namespace SchoolProject
                 return firstJoin;
             }
         }
+
+        public void UpdateComboBox()
+        {
+            var teacherlites = new List<Преподаватель>();
+            using (ElectivesEntities db = new ElectivesEntities())
+            {
+                var tmpList = db.Преподаватель.ToList();
+                teacherlites.AddRange(tmpList);
+            }
+
+            foreach (var i in teacherlites) { FindComboBox.Items.Add(i.Фамилия); }
+        }
+
         private void BackMenu_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = new MainWindow();
@@ -111,6 +125,39 @@ namespace SchoolProject
 
             var list = GetElectives();
             grid.ItemsSource = list.Where(x => x.НазваниеФакультатива.ToLower().Contains(SortTextBox.Text)).ToList();
+        }
+
+        private void ColorRow(DataGrid dg)
+        {
+            for (int i = 0; i < dg.Items.Count; i++)
+            {
+                DataGridRow row = (DataGridRow)dg.ItemContainerGenerator.ContainerFromIndex(i);
+
+
+                if (row != null)
+                {
+                    int index = row.GetIndex();
+                    var date = dg.Items.GetItemAt(index) as ElectivesUpd;
+
+
+                    if (date.ФамилияПреподавателя == FindComboBox.Text)
+                    {
+
+                        row.Background = Brushes.Coral;
+                    }
+
+                    else
+                    {
+                        row.Background = Brushes.White;
+                    }
+                }
+            }
+        }
+
+        private void FindButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SortTextBox.Text == string.Empty)
+                ColorRow(grid);
         }
     }
 }

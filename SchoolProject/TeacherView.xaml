@@ -24,5 +24,7 @@
         <Button x:Name="Delete" Content="Удалить" Margin="21,350,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Click="Delete_Click"/>
         <Button x:Name="BackMenu" Content="Назад" HorizontalAlignment="Left" Margin="21,390,0,0" VerticalAlignment="Top" Click="BackMenu_Click"/>
         <TextBox x:Name="SortTextBox" HorizontalAlignment="Left" Margin="21,230,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="SortTextBox_TextChanged"/>
+        <ComboBox x:Name="FindComboBox" HorizontalAlignment="Left" Margin="21,190,0,0" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="FindButton" Content="Найти" HorizontalAlignment="Left" Margin="100,390,0,0" VerticalAlignment="Top" Click="FindButton_Click"/>
     </Grid>
 </Window>

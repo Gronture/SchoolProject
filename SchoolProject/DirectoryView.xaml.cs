@@ -79,5 +79,10 @@ namespace SchoolProject
             var list = GetDirectory();
             grid.ItemsSource = list.Where(x => x.Название.ToLower().Contains(SortTextBox.Text)).ToList();
         }
+
+        private void FindButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

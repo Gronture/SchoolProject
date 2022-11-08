@@ -1,0 +1,16 @@
+﻿<Window x:Class="SchoolProject.ReportView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SchoolProject"
+        xmlns:syncfusion="clr-namespace:BoldReports.UI.Xaml;assembly=BoldReports.Wpf"
+        mc:Ignorable="d"
+        Title="Отчёт" Height="450" Width="900">
+    <Grid>
+        <Button x:Name="ReportOpenButton" Content="Отчёт без параметров" HorizontalAlignment="Left" Margin="21,30,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" Click="ReportOpenButton_Click"/>
+        <Button x:Name="ReportParametrButton" Content="Отчёт с параметрами" HorizontalAlignment="Left" Margin="21,60,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" Click="ReportParametrButton_Click"/>
+        <Button x:Name="BackMenu" Content="Назад" HorizontalAlignment="Left" Margin="21,90,0,0" VerticalAlignment="Top" FontFamily="Times New Roman" Click="BackMenu_Click"/>
+        <syncfusion:ReportViewer Name="reportViewer" Margin="180,0,0,-24" Grid.Column="1" />
+    </Grid>
+</Window>

@@ -70,5 +70,11 @@ namespace SchoolProject
             positionView.Show();
             this.Close();
         }
+
+        private void Report_Click(object sender, RoutedEventArgs e)
+        {
+            new ReportView().Show();
+            this.Close();
+        }
     }
 }

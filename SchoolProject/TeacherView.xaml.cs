@@ -24,6 +24,7 @@ namespace SchoolProject
         {
             InitializeComponent();
             UpdateView();
+            UpdateComboBox();
         }
 
 
@@ -59,8 +60,18 @@ namespace SchoolProject
                 
                 return result;
             }
+        }
 
-           
+        public void UpdateComboBox()
+        {
+            var positionlites = new List<Должность>();
+            using (ElectivesEntities db = new ElectivesEntities())
+            {
+                var tmpList = db.Должность.ToList();
+                positionlites.AddRange(tmpList);
+            }
+
+            foreach (var i in positionlites) { FindComboBox.Items.Add(i.Название); }
         }
 
         private void BackMenu_Click(object sender, RoutedEventArgs e)
@@ -100,6 +111,40 @@ namespace SchoolProject
             var list = GetTeacher();
             grid.ItemsSource = list.Where(x => x.Фамилия.ToLower().Contains(SortTextBox.Text)).ToList();
 
+        }
+        private void ColorRow(DataGrid dg)
+        {
+            for (int i = 0; i < dg.Items.Count; i++)
+            {
+                DataGridRow row = (DataGridRow)dg.ItemContainerGenerator.ContainerFromIndex(i);
+
+                if (row != null)
+                {
+                    int index = row.GetIndex();
+                    var date = dg.Items.GetItemAt(index) as TeacherUpd;
+
+                    if(FindComboBox.Text != string.Empty)
+                    {
+                        if (date.Должность == FindComboBox.Text)
+                        {
+
+                            row.Background = Brushes.Coral;
+                        }
+
+                        else
+                        {
+                            row.Background = Brushes.White;
+                        }
+                    }
+              
+                }
+            }
+        }
+
+        private void FindButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SortTextBox.Text == string.Empty)
+                ColorRow(grid);
         }
     }
 }
