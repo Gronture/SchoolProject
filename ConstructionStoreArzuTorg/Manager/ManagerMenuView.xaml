@@ -1,0 +1,22 @@
+﻿<Window x:Class="ConstructionStoreArzuTorg.Manager.ManagerMenuView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ConstructionStoreArzuTorg.Manager"
+        mc:Ignorable="d"
+        Height="530" Width="230">
+    <Grid>
+        <Button x:Name="EmployeeListButton" Content="Сотрудники" HorizontalAlignment="Left" Margin="30,30,0,0" VerticalAlignment="Top" Click="EmployeeListButton_Click" Width="110" Height="32"/>
+        <Button x:Name="DiscountsButton" Content="Сезонность" HorizontalAlignment="Left" Margin="30,75,0,0" VerticalAlignment="Top" Click="DiscountsButton_Click" Width="110" Height="32"/>
+        <Button x:Name="ReportButton" Content="Отчёт" HorizontalAlignment="Left" Margin="30,120,0,0" VerticalAlignment="Top" Click="ReportButton_Click" Width="110" Height="32"/>
+        <Button x:Name="WarehouseButton" Content="Склад" HorizontalAlignment="Left" Margin="30,165,0,0" VerticalAlignment="Top" Click="WarehouseButton_Click" Width="110" Height="32"/>
+        <Button x:Name="ProviderButton" Content="Поставщики" HorizontalAlignment="Left" Margin="30,210,0,0" VerticalAlignment="Top" Click="ProviderButton_Click" Width="115" Height="32"/>
+        <Button x:Name="SuppliesButton" Content="Поставки" HorizontalAlignment="Left" Margin="30,255,0,0" VerticalAlignment="Top" Click="SuppliesButton_Click" Width="115" Height="32"/>
+        <Button x:Name="RazmerButton" Content="Размеры" HorizontalAlignment="Left" Margin="30,300,0,0" VerticalAlignment="Top" Width="115" Height="32" Click="RazmerButton_Click"/>
+        <Button x:Name="CategoriButton" Content="Категория" HorizontalAlignment="Left" Margin="30,345,0,0" VerticalAlignment="Top" Width="115" Height="32" Click="CategoriButton_Click"/>
+        <Button x:Name="EdIzmButton" Content="Ед.Измер." HorizontalAlignment="Left" Margin="30,390,0,0" VerticalAlignment="Top" Width="115" Height="32" Click="EdIzmButton_Click"/>
+        <Button x:Name="EdIzmButton_Copy" Content="Выход." HorizontalAlignment="Left" Margin="30,440,0,0" VerticalAlignment="Top" Width="115" Height="32" Click="EdIzmButton_Copy_Click"/>
+
+    </Grid>
+</Window>
