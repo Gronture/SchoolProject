@@ -174,6 +174,9 @@ namespace ConstructionStoreArzuTorg.Employee
 
         private void ReportButton_Click(object sender, RoutedEventArgs e)
         {
+
+            //
+
             //создане товарной накладной
             var selectedItem = postavkiGrid.SelectedItem as DeliveriesUpd;
             using (ConstructionStoreEntities db = new ConstructionStoreEntities())
