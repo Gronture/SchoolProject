@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Height="320" Width="400">
     <Grid>
-        <DataGrid AutoGenerateColumns="False" x:Name="grid" Margin="120,0,0,0">
+        <DataGrid AutoGenerateColumns="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" IsReadOnly="True" x:Name="grid" Margin="120,0,0,0">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Название_сезона}" Header="Название сезона" Width="140"/>
                 <DataGridTextColumn Binding="{Binding Процент}" Header="Скидка"  Width="100"/>

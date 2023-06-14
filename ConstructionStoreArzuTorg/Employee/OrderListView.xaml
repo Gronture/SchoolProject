@@ -15,7 +15,7 @@
         <Button x:Name="ReportButton" Content="Отчёт" HorizontalAlignment="Left" Margin="10,140,0,0" VerticalAlignment="Top" Click="ReportButton_Click" Width="130" Height="32"/>
         <Button x:Name="ReceiptButton" Content="Выписать Чек" HorizontalAlignment="Left" Margin="10,190,0,0" VerticalAlignment="Top" Click="ReceiptButton_Click" Width="130" Height="32"/>
         <Button x:Name="BackButton" Content="Назад" HorizontalAlignment="Left" Margin="10,240,0,0" VerticalAlignment="Top" Click="BackButton_Click" Width="130" Height="32"/>
-        <DataGrid AutoGenerateColumns="False" IsReadOnly="True" x:Name="tovarsGrid" Margin="800,0,25,0" RenderTransformOrigin="0.5,0.5" SelectionChanged="tovarsGrid_SelectionChanged">
+        <DataGrid AutoGenerateColumns="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled"  IsReadOnly="True" x:Name="tovarsGrid" Margin="800,0,25,0" RenderTransformOrigin="0.5,0.5" SelectionChanged="tovarsGrid_SelectionChanged">
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Сделать возврат" Click="MenuItem_Click"/>
@@ -29,7 +29,7 @@
                 <DataGridTextColumn Binding="{Binding Count}" Header="Количество"  Width="110"/>
             </DataGrid.Columns>
         </DataGrid>
-        <DataGrid AutoGenerateColumns="False" IsReadOnly="True" x:Name="orderGrid" Margin="150,0,730,0" RenderTransformOrigin="0.5,0.5" SelectionChanged="orderGrid_SelectionChanged">
+        <DataGrid AutoGenerateColumns="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled"  IsReadOnly="True" x:Name="orderGrid" Margin="150,0,730,0" RenderTransformOrigin="0.5,0.5" SelectionChanged="orderGrid_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding ФамилияКлиента}" Header="Клиент"  Width="200"/>
                 <DataGridTextColumn Binding="{Binding ФамилияСотрудника}" Header="Ответственный"  Width="150"/>

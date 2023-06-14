@@ -174,9 +174,6 @@ namespace ConstructionStoreArzuTorg.Employee
 
         private void ReportButton_Click(object sender, RoutedEventArgs e)
         {
-
-            //
-
             //создане товарной накладной
             var selectedItem = postavkiGrid.SelectedItem as DeliveriesUpd;
             using (ConstructionStoreEntities db = new ConstructionStoreEntities())
@@ -249,9 +246,9 @@ namespace ConstructionStoreArzuTorg.Employee
                     wordTable.Cell(i + 2, 2).Range.Text = joinedDataProduct[i].НазваниеКатегории;
                     wordTable.Cell(i + 2, 3).Range.Text = joinedDataProduct[i].ЕдиницаИзмерения;
                     wordTable.Cell(i + 2, 4).Range.Text = joinedDataProduct[i].Count.ToString();
-                    wordTable.Cell(i + 2, 5).Range.Text = Math.Round(joinedDataProduct[i].Стоимость, 2).ToString() + " BY";
-                    wordTable.Cell(i + 2, 6).Range.Text = Math.Round(joinedDataProduct[i].SumNDS, 2).ToString() + " BY";
-                    wordTable.Cell(i + 2, 7).Range.Text = Math.Round(joinedDataProduct[i].SumWithNDS, 2).ToString() + " BY";
+                    wordTable.Cell(i + 2, 5).Range.Text = Math.Round(joinedDataProduct[i].Стоимость, 2).ToString() + " BYN";
+                    wordTable.Cell(i + 2, 6).Range.Text = Math.Round(joinedDataProduct[i].SumNDS, 2).ToString() + " BYN";
+                    wordTable.Cell(i + 2, 7).Range.Text = Math.Round(joinedDataProduct[i].SumWithNDS, 2).ToString() + " BYN";
                 }
 
                 //считаем НДС и сумму НДС
@@ -267,9 +264,9 @@ namespace ConstructionStoreArzuTorg.Employee
                     { "{Provider}", provider.Наименование },
                     { "{Worker}", worker.Фамилия + " " + worker.Имя + " " + worker.Отчество },
                     { "{Number}", provider.Расчётный_счёт.ToString() },
-                    { "{Sum}", Math.Round(needObject.Сумма,2).ToString() + " BY" },
-                    { "{SumNDS}", Math.Round(nds,2).ToString() + " BY" },
-                    { "{SumNoNDS}", Math.Round(sumNoNDS, 2).ToString() + " BY" },
+                    { "{Sum}", Math.Round(needObject.Сумма,2).ToString() + " BYN" },
+                    { "{SumNDS}", Math.Round(nds,2).ToString() + " BYN" },
+                    { "{SumNoNDS}", Math.Round(sumNoNDS, 2).ToString() + " BYN" },
                     { "{ID}",  random.Next(1000000, 9999999) + needObject.ID.ToString() }
                 };
 

@@ -11,7 +11,7 @@
         <Button x:Name="DeleteButton" Content="Удалить" HorizontalAlignment="Left" Margin="10,90,0,0" VerticalAlignment="Top" Click="DeleteButton_Click" Width="96" Height="32"/>
         <Button x:Name="ReportButton" Content="Отчёт" HorizontalAlignment="Left" Margin="10,140,0,0" VerticalAlignment="Top" Click="ReportButton_Click" Width="96" Height="32"/>
         <Button x:Name="BackButton" Content="Назад" HorizontalAlignment="Left" Margin="10,190,0,0" VerticalAlignment="Top" Click="BackButton_Click" Width="96" Height="32"/>
-        <DataGrid AutoGenerateColumns="False" IsReadOnly="True" x:Name="tovarsGrid" Margin="680,0,0,0" RenderTransformOrigin="0.5,0.5">
+        <DataGrid AutoGenerateColumns="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" IsReadOnly="True" x:Name="tovarsGrid" Margin="680,0,0,0" RenderTransformOrigin="0.5,0.5">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Название}" Header="Название"  Width="110"/>
                 <DataGridTextColumn Binding="{Binding НазваниеКатегории}" Header="Категория"  Width="140"/>
@@ -20,7 +20,7 @@
                 <DataGridTextColumn Binding="{Binding Count}" Header="Количество"  Width="110"/>
             </DataGrid.Columns>
         </DataGrid>
-        <DataGrid AutoGenerateColumns="False" IsReadOnly="True" x:Name="postavkiGrid" Margin="120,0,0,0" RenderTransformOrigin="0.5,0.5" SelectionChanged="postavkiGrid_SelectionChanged" HorizontalAlignment="Left" Width="500">
+        <DataGrid AutoGenerateColumns="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" IsReadOnly="True" x:Name="postavkiGrid" Margin="120,0,0,0" RenderTransformOrigin="0.5,0.5" SelectionChanged="postavkiGrid_SelectionChanged" HorizontalAlignment="Left" Width="500">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding НаименованиеПоставщика}" Header="Поставщик"  Width="140"/>
                 <DataGridTextColumn Binding="{Binding ФамилияСотрудника}" Header="Принимающий"  Width="160"/>

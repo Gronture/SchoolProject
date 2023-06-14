@@ -418,7 +418,7 @@ namespace ConstructionStoreArzuTorg.Add
 
                 wordTable.Cell(1, 1).Range.Text = "Наименование";
                 wordTable.Cell(1, 2).Range.Text = "Кол-во";
-                wordTable.Cell(1, 3).Range.Text = "Цена";
+                wordTable.Cell(1, 3).Range.Text = "Цена за шт";
                 wordTable.Cell(1, 4).Range.Text = "Сумма";
 
 
@@ -429,8 +429,8 @@ namespace ConstructionStoreArzuTorg.Add
                 {
                     wordTable.Cell(i + 2, 1).Range.Text = joinedDataProduct[i].Название;
                     wordTable.Cell(i + 2, 2).Range.Text = newDate.ToString();
-                    wordTable.Cell(i + 2, 3).Range.Text = Math.Round(joinedDataProduct[i].Стоимость, 2).ToString() + " BY";
-                    wordTable.Cell(i + 2, 4).Range.Text = Math.Round(joinedDataProduct[i].SumToReceipt, 2).ToString() + " BY";
+                    wordTable.Cell(i + 2, 3).Range.Text = Math.Round(joinedDataProduct[i].Стоимость, 2).ToString() + " BYN";
+                    wordTable.Cell(i + 2, 4).Range.Text = Math.Round(joinedDataProduct[i].SumToReceipt, 2).ToString() + " BYN";
 
                 }
 

@@ -17,7 +17,7 @@ namespace ConstructionStoreArzuTorg.ClassConnection
                 _fileInfo = new FileInfo(fileName);
             else MessageBox.Show("Ошибка");
         }
-
+        //Замена шаблонных данных своими
         public bool Process(Dictionary<string, string> items)
         {
             try

@@ -10,7 +10,7 @@
         <Button x:Name="CreateRezervButton" Content="Создать резервацию" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Click="CreateRezervButton_Click" Width="171" Height="32"/>
         <Button x:Name="DeleteRezervButton" Content="Удалить резервацию" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" Width="171" Height="32" Click="DeleteRezervButton_Click"/>
         <Button x:Name="BackButton" Content="Назад" HorizontalAlignment="Left" Margin="10,300,0,0" VerticalAlignment="Top" Click="BackButton_Click" Width="171" Height="32"/>
-        <DataGrid AutoGenerateColumns="False" IsReadOnly="True" x:Name="tovarsGrid" Margin="560,0,0,0">
+        <DataGrid AutoGenerateColumns="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" IsReadOnly="True" x:Name="tovarsGrid" Margin="560,0,0,0">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Название}" Header="Товар"  Width="120"/>
                 <DataGridTextColumn Binding="{Binding НазваниеКатегории}" Header="Категория"  Width="170"/>
@@ -19,7 +19,7 @@
               
             </DataGrid.Columns>
         </DataGrid>
-        <DataGrid AutoGenerateColumns="False" IsReadOnly="True" x:Name="grid" Margin="220,0,0,0" HorizontalAlignment="Left" Width="300" SelectionChanged="grid_SelectionChanged" >
+        <DataGrid AutoGenerateColumns="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" IsReadOnly="True" x:Name="grid" Margin="220,0,0,0" HorizontalAlignment="Left" Width="300" SelectionChanged="grid_SelectionChanged" >
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Изменить статус" Click="MenuItem_Click"/>

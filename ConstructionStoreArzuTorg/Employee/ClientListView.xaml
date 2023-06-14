@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="" Height="450" Width="740">
     <Grid>
-        <DataGrid AutoGenerateColumns="False" x:Name="grid" FontFamily="Times New Roman" Margin="180,0,0,0">
+        <DataGrid ScrollViewer.HorizontalScrollBarVisibility="Disabled" IsReadOnly="True" AutoGenerateColumns="False" x:Name="grid" FontFamily="Times New Roman" Margin="180,0,0,0">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Фамилия}" Header="Фамилия" Width="100" FontFamily="Times New Roman"/>
                 <DataGridTextColumn Binding="{Binding Имя}" Header="Имя" Width="100" FontFamily="Times New Roman"/>
