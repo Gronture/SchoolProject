@@ -267,9 +267,9 @@ namespace ConstructionStoreArzuTorg.Add
                     wordTable.Cell(i + 2, 2).Range.Text = joinedDataProduct[i].НазваниеКатегории;
                     wordTable.Cell(i + 2, 3).Range.Text = joinedDataProduct[i].ЕдиницаИзмерения;
                     wordTable.Cell(i + 2, 4).Range.Text = joinedDataProduct[i].Count.ToString();
-                    wordTable.Cell(i + 2, 5).Range.Text = joinedDataProduct[i].Стоимость.ToString();
-                    wordTable.Cell(i + 2, 6).Range.Text = joinedDataProduct[i].SumNDS.ToString();
-                    wordTable.Cell(i + 2, 7).Range.Text = joinedDataProduct[i].SumWithNDS.ToString();
+                    wordTable.Cell(i + 2, 5).Range.Text = joinedDataProduct[i].Стоимость.ToString() + " BY";
+                    wordTable.Cell(i + 2, 6).Range.Text = joinedDataProduct[i].SumNDS.ToString() + " BY";
+                    wordTable.Cell(i + 2, 7).Range.Text = joinedDataProduct[i].SumWithNDS.ToString() + " BY";
                 }
 
 

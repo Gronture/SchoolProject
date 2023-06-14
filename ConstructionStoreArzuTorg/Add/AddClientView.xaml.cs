@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -47,18 +48,32 @@ namespace ConstructionStoreArzuTorg.Add
 
                 }
             }
-            using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+
+
+            var number = PhoneTextBox.Text;
+            string pattern = @"^\+375\d{9}$";
+            bool isMatch = Regex.IsMatch(number, pattern);
+
+            if (isMatch)
             {
-                //добавление клиента
-                Клиент client = new Клиент();
-                client.Фамилия = FirstNameTextBox.Text;
-                client.Имя = SecondNameTextBox.Text;
-                client.Отчество = LastNameTextBox.Text;
-                client.Телефон = PhoneTextBox.Text;
-                client.Адрес = AddressTextBox.Text;
-                db.Клиент.Add(client);
-                db.SaveChanges();
+                using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+                {
+                    //добавление клиента
+                    Клиент client = new Клиент();
+                    client.Фамилия = FirstNameTextBox.Text;
+                    client.Имя = SecondNameTextBox.Text;
+                    client.Отчество = LastNameTextBox.Text;
+                    client.Телефон = PhoneTextBox.Text;
+                    client.Адрес = AddressTextBox.Text;
+                    db.Клиент.Add(client);
+                    db.SaveChanges();
+                }
             }
+            else
+            {
+                MessageBox.Show("Ошибка при заполнении поля Телефон");
+            }
+            
             //переход на окно клиентов
             new ClientListView().Show();
             Close();

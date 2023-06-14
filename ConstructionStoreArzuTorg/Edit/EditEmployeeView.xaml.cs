@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Policy;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -70,19 +71,32 @@ namespace ConstructionStoreArzuTorg.Edit
                     }
                 }
             }
-            using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+
+            var number = PhoneTextBox.Text;
+            string pattern = @"^\+375\d{9}$";
+            bool isMatch = Regex.IsMatch(number, pattern);
+
+            if (isMatch)
             {
-                var needObject = db.Сотрудник.Where(x => x.ID_Сотрудника == _emp.ID_Сотрудника).FirstOrDefault();
-                if(needObject != null)
+                using (ConstructionStoreEntities db = new ConstructionStoreEntities())
                 {
-                    needObject.Фамилия = FirstNameTextBox.Text;
-                    needObject.Имя = SecondNameTextBox.Text;
-                    needObject.Отчество = LastNameTextBox.Text;
-                    needObject.ID_Должности = db.Должность.Where(x => x.Название == PositionComboBox.Text).FirstOrDefault().ID_Должности;
-                    needObject.Телефон = PhoneTextBox.Text;
-                    db.SaveChanges();
+                    var needObject = db.Сотрудник.Where(x => x.ID_Сотрудника == _emp.ID_Сотрудника).FirstOrDefault();
+                    if (needObject != null)
+                    {
+                        needObject.Фамилия = FirstNameTextBox.Text;
+                        needObject.Имя = SecondNameTextBox.Text;
+                        needObject.Отчество = LastNameTextBox.Text;
+                        needObject.ID_Должности = db.Должность.Where(x => x.Название == PositionComboBox.Text).FirstOrDefault().ID_Должности;
+                        needObject.Телефон = PhoneTextBox.Text;
+                        db.SaveChanges();
+                    }
                 }
             }
+            else
+            {
+                MessageBox.Show("Ошибка при вводе телефона");
+            }
+            
             new EmployeeListView().Show();
             Close();
         }

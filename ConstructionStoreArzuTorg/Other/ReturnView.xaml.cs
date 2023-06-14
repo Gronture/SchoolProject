@@ -3,6 +3,7 @@ using ConstructionStoreArzuTorg.Employee;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -153,6 +154,14 @@ namespace ConstructionStoreArzuTorg.Other
                         //    itemToEdit.Статус = db.Статус.FirstOrDefault(x => x.Название == "Возврат").ID;
 
                         db.SaveChanges();
+
+                        var listWithData = GetProducts(supply.ID_Заказа);
+
+
+
+
+
+
                         new OrderListView().Show();
                         Close();
                     }
@@ -161,6 +170,54 @@ namespace ConstructionStoreArzuTorg.Other
                         MessageBox.Show("Возникла ошибка");
                     }
                 }
+
+            }
+
+          
+        }
+
+        public List<ProductUpd> GetProducts(int id)
+        {
+            using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+            {
+                return db.Товар
+                  .Join(db.Единицы_измерения,
+                      tovar => tovar.ID_Единицы_измерения,
+                      pt => pt.ID_Измерений,
+                      (tovar, pt) => new { Tovar = tovar, PT = pt })
+                  .Join(db.РазмерыТовара,
+                      joinResult => joinResult.Tovar.ID_Размеров,
+                      param => param.ID_Размеров,
+                      (joinResult, param) => new { Tovar = joinResult.Tovar, PT = joinResult.PT, Param = param })
+                   .Join(db.Категория,
+                      joinResult => joinResult.Tovar.ID_Категории,
+                      param => param.ID_Категории,
+                      (joinResult, param) => new { Tovar = joinResult.Tovar, PT = joinResult.PT, Param = param })
+                   .Join(db.Сезонность,
+                      joinResult => joinResult.Tovar.Сезонность,
+                      param => param.ID,
+                      (joinResult, param) => new { Tovar = joinResult.Tovar, PT = joinResult.PT, Param = param })
+                     .Join(db.ЗаказанныеТовары,
+                      joinResult => joinResult.Tovar.ID_Товара,
+                      ord => ord.Товар,
+                      (joinResult, ord) => new { Tovar = joinResult.Tovar, Param = joinResult.Param, Ord = ord, PT = joinResult.PT })
+                  .Select(x => new ProductUpd
+                  {
+                      ID_Товара = x.Tovar.ID_Товара,
+                      Название = x.Tovar.Название,
+                      НазваниеКатегории = x.Tovar.Категория.Название,
+                      Размеры = x.Tovar.РазмерыТовара.Размер,
+                      ЕдиницаИзмерения = x.Tovar.Единицы_измерения.Название,
+                      Сезонность = x.Param.Название_сезона,
+                      Ord = x.Ord.Заказ,
+                      Count = x.Ord.Количество
+                  }).Where(x => x.Ord == id).ToList();
+
+
+
+
+              
+
 
             }
         }

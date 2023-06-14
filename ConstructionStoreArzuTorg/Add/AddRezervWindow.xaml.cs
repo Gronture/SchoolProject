@@ -429,8 +429,8 @@ namespace ConstructionStoreArzuTorg.Add
                 {
                     wordTable.Cell(i + 2, 1).Range.Text = joinedDataProduct[i].Название;
                     wordTable.Cell(i + 2, 2).Range.Text = newDate.ToString();
-                    wordTable.Cell(i + 2, 3).Range.Text = Math.Round(joinedDataProduct[i].Стоимость,2).ToString();
-                    wordTable.Cell(i + 2, 4).Range.Text = Math.Round(joinedDataProduct[i].SumToReceipt,2).ToString();
+                    wordTable.Cell(i + 2, 3).Range.Text = Math.Round(joinedDataProduct[i].Стоимость, 2).ToString() + " BY";
+                    wordTable.Cell(i + 2, 4).Range.Text = Math.Round(joinedDataProduct[i].SumToReceipt, 2).ToString() + " BY";
 
                 }
 
@@ -443,7 +443,6 @@ namespace ConstructionStoreArzuTorg.Add
                 {
                     { "{Date}", DateTime.Now.ToShortDateString()  },
                     { "{Number}",  random.Next(1000000, 9999999).ToString() },
-                   // { "{Date}", needObject.Дата.ToString("dd.MM.yyyy")  },
                     { "{FIO}", client.Фамилия + " " + client.Имя + " " + client.Отчество },
                     { "{Address}", client.Адрес },
                     { "{Phone}", client.Телефон}

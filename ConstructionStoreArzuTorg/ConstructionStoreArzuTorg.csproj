@@ -535,7 +535,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="AddDocumentToPost.doc" />
-    <None Include="addDogovorPostavki.doc" />
     <None Include="DeliverReport.docx" />
     <None Include="DogovorWithProvider.docx" />
     <None Include="HelpConstructionStore.chm" />

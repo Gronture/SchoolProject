@@ -289,7 +289,6 @@ namespace ConstructionStoreArzuTorg.Employee
                     wordTable.Cell(i + 2, 1).Range.Text = joinedDataProduct[i].Название;
                     wordTable.Cell(i + 2, 2).Range.Text = joinedDataProduct[i].НазваниеКатегории;
                     wordTable.Cell(i + 2, 3).Range.Text = joinedDataProduct[i].Count.ToString();
-                   
                 }
 
                 Random random = new Random();
@@ -303,10 +302,9 @@ namespace ConstructionStoreArzuTorg.Employee
                     { "{Client}", client.Фамилия + " " + client.Имя },
                     { "{Worker}", worker.Фамилия + " " + worker.Имя },
                     { "{Addres}", client.Адрес },
-                    { "{Sum}", Math.Round(needObject.Сумма,2).ToString() },
-                    { "{SumNDS}", Math.Round(nds,2).ToString() },
-                    { "{SumNoNDS}", Math.Round(sumNoNDS, 2).ToString() },
-
+                    { "{Sum}", Math.Round(needObject.Сумма,2).ToString() + " BY" },
+                    { "{SumNDS}", Math.Round(nds,2).ToString() + " BY" },
+                    { "{SumNoNDS}", Math.Round(sumNoNDS, 2).ToString() + " BY" },
                     { "{ID}",  random.Next(1000000, 9999999) + needObject.ID_Заказа.ToString() }
                 };
 
@@ -497,8 +495,8 @@ namespace ConstructionStoreArzuTorg.Employee
                 {
                     wordTable.Cell(i + 2, 1).Range.Text = joinedDataProduct[i].Название;
                     wordTable.Cell(i + 2, 2).Range.Text = joinedDataProduct[i].Count.ToString();
-                    wordTable.Cell(i + 2, 3).Range.Text = Math.Round(joinedDataProduct[i].Стоимость, 2).ToString();
-                    wordTable.Cell(i + 2, 4).Range.Text = Math.Round(joinedDataProduct[i].SumToReceipt, 2).ToString();
+                    wordTable.Cell(i + 2, 3).Range.Text = Math.Round(joinedDataProduct[i].Стоимость, 2).ToString() + " BY";
+                    wordTable.Cell(i + 2, 4).Range.Text = Math.Round(joinedDataProduct[i].SumToReceipt, 2).ToString() + " BY";
                 }
 
                 Random random = new Random();
@@ -510,7 +508,7 @@ namespace ConstructionStoreArzuTorg.Employee
                 {
                     { "{Phone}", worker.Телефон},
                     { "{FIO}", worker.Фамилия + " " + worker.Имя + " " +worker.Отчество },
-                    { "{Sum}", Math.Round(needObject.Сумма,2).ToString() },
+                    { "{Sum}", Math.Round(needObject.Сумма, 2).ToString() + " BY" },
                     { "{ID}",  random.Next(1000000, 9999999) + needObject.ID_Заказа.ToString() }
                 };
 

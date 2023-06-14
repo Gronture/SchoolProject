@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -59,20 +60,32 @@ namespace ConstructionStoreArzuTorg.Edit
 
                 }
             }
-            using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+
+            var number = PhoneTextBox.Text;
+            string pattern = @"^\+375\d{9}$";
+            bool isMatch = Regex.IsMatch(number, pattern);
+            if (isMatch)
             {
-                //сохранение изменений клиента
-                var needObject = db.Клиент.Where(x => x.ID_Клиента == _client.ID_Клиента).FirstOrDefault();
-                if (needObject != null)
+                using (ConstructionStoreEntities db = new ConstructionStoreEntities())
                 {
-                    needObject.Фамилия = FirstNameTextBox.Text;
-                    needObject.Имя = SecondNameTextBox.Text;
-                    needObject.Отчество = LastNameTextBox.Text;
-                    needObject.Телефон = PhoneTextBox.Text;
-                    needObject.Адрес = AddressTextBox.Text;
-                    db.SaveChanges();
-                }                
+                    //сохранение изменений клиента
+                    var needObject = db.Клиент.Where(x => x.ID_Клиента == _client.ID_Клиента).FirstOrDefault();
+                    if (needObject != null)
+                    {
+                        needObject.Фамилия = FirstNameTextBox.Text;
+                        needObject.Имя = SecondNameTextBox.Text;
+                        needObject.Отчество = LastNameTextBox.Text;
+                        needObject.Телефон = PhoneTextBox.Text;
+                        needObject.Адрес = AddressTextBox.Text;
+                        db.SaveChanges();
+                    }
+                }
             }
+            else
+            {
+                MessageBox.Show("Ошибка при вводе телефона");
+            }
+            
             new ClientListView().Show();
             Close();
         }

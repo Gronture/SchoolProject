@@ -3,7 +3,9 @@ using ConstructionStoreArzuTorg.Employee;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -57,21 +59,47 @@ namespace ConstructionStoreArzuTorg.Edit
                         }
                     }
                 }
-                var needObject = db.Поставщик.Where(x => x.ID_Поставщика == _provider.ID_Поставщика).FirstOrDefault();
-                if (needObject != null)
+
+                var number = PhoneTextBox.Text;
+                string patternphone = @"^\+375\d{9}$";
+                bool isPhone = Regex.IsMatch(number, patternphone);
+
+                var email = EmailTextBox.Text;
+                string pattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
+                bool isMatch = Regex.IsMatch(email, pattern);
+
+                if (isMatch)
                 {
-                    needObject.Наименование = NameTextBox.Text;
-                    needObject.Расчётный_счёт = RSTextBox.Text;
-                    needObject.Учётный_номер_плательщика = NumPlatTextBox.Text;
-                    needObject.Название_банка = NameBankTextBox.Text;
-                    needObject.Код_банка = CodeBankTextBox.Text;
-                    needObject.Адрес = AddressTextBox.Text;
-                    needObject.ФИО = FIOTextBox.Text;
-                    needObject.Должность = PosTextBox.Text;
-                    needObject.Почта = EmailTextBox.Text;
-                    db.SaveChanges();
+                    if (isPhone)
+                    {
+                        var needObject = db.Поставщик.Where(x => x.ID_Поставщика == _provider.ID_Поставщика).FirstOrDefault();
+                        if (needObject != null)
+                        {
+                            needObject.Наименование = NameTextBox.Text;
+                            needObject.Расчётный_счёт = RSTextBox.Text;
+                            needObject.Учётный_номер_плательщика = NumPlatTextBox.Text;
+                            needObject.Название_банка = NameBankTextBox.Text;
+                            needObject.Код_банка = CodeBankTextBox.Text;
+                            needObject.Адрес = AddressTextBox.Text;
+                            needObject.ФИО = FIOTextBox.Text;
+                            needObject.Телефон = PhoneTextBox.Text;
+                            needObject.Должность = PosTextBox.Text;
+                            needObject.Почта = EmailTextBox.Text;
+                            db.SaveChanges();
+                        }
+                    }
+
+                    else
+                    {
+                        MessageBox.Show("Ошибка при вводе телефона");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Ошибка при вводе почты");
                 }
             }
+                
             new ProviderListView().Show();
             Close();
         }

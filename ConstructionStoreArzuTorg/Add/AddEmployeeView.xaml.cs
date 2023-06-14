@@ -75,7 +75,7 @@ namespace ConstructionStoreArzuTorg.Add
             }
 
             else
-               MessageBox.Show("Ошибка");
+               MessageBox.Show("Ошибка при заполнении поля Телефон");
             new EmployeeListView().Show();
             Close();
         }

@@ -249,9 +249,9 @@ namespace ConstructionStoreArzuTorg.Employee
                     wordTable.Cell(i + 2, 2).Range.Text = joinedDataProduct[i].НазваниеКатегории;
                     wordTable.Cell(i + 2, 3).Range.Text = joinedDataProduct[i].ЕдиницаИзмерения;
                     wordTable.Cell(i + 2, 4).Range.Text = joinedDataProduct[i].Count.ToString();
-                    wordTable.Cell(i + 2, 5).Range.Text = Math.Round(joinedDataProduct[i].Стоимость, 2).ToString();
-                    wordTable.Cell(i + 2, 6).Range.Text = Math.Round(joinedDataProduct[i].SumNDS, 2).ToString();
-                    wordTable.Cell(i + 2, 7).Range.Text = Math.Round(joinedDataProduct[i].SumWithNDS, 2).ToString();
+                    wordTable.Cell(i + 2, 5).Range.Text = Math.Round(joinedDataProduct[i].Стоимость, 2).ToString() + " BY";
+                    wordTable.Cell(i + 2, 6).Range.Text = Math.Round(joinedDataProduct[i].SumNDS, 2).ToString() + " BY";
+                    wordTable.Cell(i + 2, 7).Range.Text = Math.Round(joinedDataProduct[i].SumWithNDS, 2).ToString() + " BY";
                 }
 
                 //считаем НДС и сумму НДС
@@ -267,9 +267,9 @@ namespace ConstructionStoreArzuTorg.Employee
                     { "{Provider}", provider.Наименование },
                     { "{Worker}", worker.Фамилия + " " + worker.Имя + " " + worker.Отчество },
                     { "{Number}", provider.Расчётный_счёт.ToString() },
-                    { "{Sum}", Math.Round(needObject.Сумма,2).ToString() },
-                    { "{SumNDS}", Math.Round(nds,2).ToString() },
-                    { "{SumNoNDS}", Math.Round(sumNoNDS, 2).ToString() },
+                    { "{Sum}", Math.Round(needObject.Сумма,2).ToString() + " BY" },
+                    { "{SumNDS}", Math.Round(nds,2).ToString() + " BY" },
+                    { "{SumNoNDS}", Math.Round(sumNoNDS, 2).ToString() + " BY" },
                     { "{ID}",  random.Next(1000000, 9999999) + needObject.ID.ToString() }
                 };
 
