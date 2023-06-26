@@ -36,6 +36,7 @@ namespace ConstructionStoreArzuTorg.Manager
                 grid.ItemsSource = GetEmployee();
             }
         }
+        //получение листа сотрудников
         public List<EmployeeUpd> GetEmployee()
         {
 

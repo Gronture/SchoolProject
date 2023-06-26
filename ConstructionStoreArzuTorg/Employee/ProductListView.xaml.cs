@@ -27,6 +27,7 @@ namespace ConstructionStoreArzuTorg.Employee
             InitializeComponent();
             UpdateView();
         }
+        //загрузка данных в дата грид
         public void UpdateView()
         {
             using (ConstructionStoreEntities db = new ConstructionStoreEntities())
@@ -34,11 +35,12 @@ namespace ConstructionStoreArzuTorg.Employee
                 grid.ItemsSource = GetProduct();
             }
         }
+        //получение данных о товарах
         public List<ProductUpd> GetProduct()
         {
-
             using (ConstructionStoreEntities db = new ConstructionStoreEntities())
             {
+                //подключение категории
                 var firstJoin = db.Товар.ToList().GroupJoin(
                     db.Категория.ToList(),
                     cl => cl.ID_Категории,
@@ -54,7 +56,7 @@ namespace ConstructionStoreArzuTorg.Employee
 
                     }).ToList();
 
-
+                //подключение размеров товара
                 var secondJoin = db.Товар.ToList().GroupJoin(
                     db.РазмерыТовара.ToList(),
                     cl => cl.ID_Размеров,
@@ -65,7 +67,7 @@ namespace ConstructionStoreArzuTorg.Employee
                     {
                         Размеры = db.РазмерыТовара.Where(x => x.ID_Размеров == dimensions.ID_Размеров).FirstOrDefault().Размер,
                     }).ToList();
-
+                //подключение единиц измерения
                 var thirdJoin = db.Товар.ToList().GroupJoin(
                     db.Единицы_измерения.ToList(),
                     cl => cl.ID_Единицы_измерения,
@@ -76,7 +78,7 @@ namespace ConstructionStoreArzuTorg.Employee
                     {
                         ЕдиницаИзмерения = db.Единицы_измерения.Where(x => x.ID_Измерений == units.ID_Измерений).FirstOrDefault().Название,
                     }).ToList();
-
+                //подключение скидки
                 var lastJoin = db.Товар.ToList().GroupJoin(
                     db.Сезонность.ToList(),
                     cl => cl.Сезонность,
@@ -93,12 +95,12 @@ namespace ConstructionStoreArzuTorg.Employee
                     }).ToList();
 
 
-
+                //занесение подключенных данных
                 for (int i = 0; i < firstJoin.Count; i++)
                 {
                     firstJoin[i].Размеры = secondJoin[i].Размеры;
                     firstJoin[i].ЕдиницаИзмерения = thirdJoin[i].ЕдиницаИзмерения;
-                    firstJoin[i].Стоимость = lastJoin[i].Стоимость;
+                    firstJoin[i].Стоимость = Math.Round(lastJoin[i].Стоимость,2);
                     firstJoin[i].Сезонность = lastJoin[i].Сезонность;
                     firstJoin[i].СерийныйНомер = lastJoin[i].СерийныйНомер;
                     firstJoin[i].Гарантия = lastJoin[i].Гарантия;

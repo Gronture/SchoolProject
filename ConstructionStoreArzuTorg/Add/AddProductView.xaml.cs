@@ -52,7 +52,7 @@ namespace ConstructionStoreArzuTorg.Add
                     var textbox = (TextBox)control;
                     if (textbox.Text == string.Empty)
                     {
-                        MessageBox.Show("Ошибка");
+                        MessageBox.Show("Не заполнены текстовые поля");
                         return;
                     }
                     
@@ -62,75 +62,71 @@ namespace ConstructionStoreArzuTorg.Add
                     var comboBox = (ComboBox)control;
                     if (comboBox.SelectedValue == null || comboBox.SelectedValue.ToString() == string.Empty)
                     {
-                        MessageBox.Show("Ошибка");
+                        MessageBox.Show("Не выбраны параметры товара или скидка");
                         return;
                     }
 
                 }
             }
-            using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+            try
             {
-
-
-                var numbers = NameSeasonComboBox.SelectedItem.ToString().Where(x => Char.IsDigit(x)).ToList();
-                string combinedNumber = string.Join("", numbers);
-                int result = int.Parse(combinedNumber);
-
-
-                string firstWord = NameSeasonComboBox.SelectedItem.ToString().Split('/')[0].Trim();
-                Сезонность item = new Сезонность();
-                switch (firstWord)
+                using (ConstructionStoreEntities db = new ConstructionStoreEntities())
                 {
-                    case "Лето":
-                        item = db.Сезонность.FirstOrDefault(x => x.Название_сезона == "Лето" && x.Процент == result);
-                        break;
-                    case "Зима":
-                        item = db.Сезонность.FirstOrDefault(x => x.Название_сезона == "Зима" && x.Процент == result);
-                        break;
-                    case "Весна":
-                        item = db.Сезонность.FirstOrDefault(x => x.Название_сезона == "Весна" && x.Процент == result);
-                        break;
-                    case "Осень":
-                        item = db.Сезонность.FirstOrDefault(x => x.Название_сезона == "Осень" && x.Процент == result);
-                        break;
 
+
+                    var numbers = NameSeasonComboBox.SelectedItem.ToString().Where(x => Char.IsDigit(x)).ToList();
+                    string combinedNumber = string.Join("", numbers);
+                    int result = int.Parse(combinedNumber);
+
+
+                    string firstWord = NameSeasonComboBox.SelectedItem.ToString().Split('/')[0].Trim();
+                    Сезонность item = new Сезонность();
+                    switch (firstWord)
+                    {
+                        case "Лето":
+                            item = db.Сезонность.FirstOrDefault(x => x.Название_сезона == "Лето" && x.Процент == result);
+                            break;
+                        case "Зима":
+                            item = db.Сезонность.FirstOrDefault(x => x.Название_сезона == "Зима" && x.Процент == result);
+                            break;
+                        case "Весна":
+                            item = db.Сезонность.FirstOrDefault(x => x.Название_сезона == "Весна" && x.Процент == result);
+                            break;
+                        case "Осень":
+                            item = db.Сезонность.FirstOrDefault(x => x.Название_сезона == "Осень" && x.Процент == result);
+                            break;
+
+                    }
+
+                    Товар product = new Товар();
+
+                    var category = db.Категория.Where(x => x.Название == CategoryComboBox.Text).FirstOrDefault();
+                    var dimensions = db.РазмерыТовара.Where(x => x.Размер == DimensionsComboBox.Text).FirstOrDefault();
+                    var unit = db.Единицы_измерения.Where(x => x.Название == UnitComboBox.Text).FirstOrDefault();
+
+                    product.ID_Категории = category.ID_Категории;
+                    product.ID_Размеров = dimensions.ID_Размеров;
+                    product.ID_Единицы_измерения = unit.ID_Измерений;
+                    product.Сезонность = item.ID;
+                    product.Название = NameTextBox.Text;
+                    product.Стоимость = decimal.Parse(PriceTextBox.Text);
+
+                    db.Товар.Add(product);
+                    db.SaveChanges();
                 }
-
-                Товар product = new Товар();
-                
-                var category = db.Категория.Where(x => x.Название == CategoryComboBox.Text).FirstOrDefault();
-                var dimensions = db.РазмерыТовара.Where(x => x.Размер == DimensionsComboBox.Text).FirstOrDefault();
-                var unit = db.Единицы_измерения.Where(x => x.Название == UnitComboBox.Text).FirstOrDefault();
-               
-                product.ID_Категории = category.ID_Категории;
-                product.ID_Размеров = dimensions.ID_Размеров;
-                product.ID_Единицы_измерения = unit.ID_Измерений;
-                product.Сезонность = item.ID;
-                product.Название = NameTextBox.Text;
-                product.Стоимость = int.Parse(PriceTextBox.Text);
-
-                db.Товар.Add(product);
-                db.SaveChanges();
+                new ProductListView().Show();
+                Close();
             }
-            new ProductListView().Show();
-            Close();
+            catch
+            {
+                MessageBox.Show("Ошибка при добавлении товара");
+            }
+           
         }
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             new ProductListView().Show();
             Close();
-        }
-
-        private void NameSeasonComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-         
-            using (ConstructionStoreEntities db = new ConstructionStoreEntities())
-            {
-               
-
-
-
-            }
         }
     }
 }

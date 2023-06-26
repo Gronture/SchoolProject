@@ -17,6 +17,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+using System.IO;
+
 namespace ConstructionStoreArzuTorg.Add
 {
     /// <summary>
@@ -99,7 +101,7 @@ namespace ConstructionStoreArzuTorg.Add
                     var textbox = (TextBox)control;
                     if (textbox.Text == string.Empty)
                     {
-                        MessageBox.Show("Ошибка");
+                        MessageBox.Show("Не заполнены текстовые поля");
                         return;
                     }
 
@@ -109,9 +111,15 @@ namespace ConstructionStoreArzuTorg.Add
                     var comboBox = (ComboBox)control;
                     if (comboBox.SelectedValue == null || comboBox.SelectedValue.ToString() == string.Empty)
                     {
-                        MessageBox.Show("Ошибка");
+                        MessageBox.Show("Не выбран товар или его параметры");
                         return;
                     }
+                }
+                var count = int.Parse(ColvoTextBox.Text);
+                if (count <= 0)
+                {
+                    MessageBox.Show("Количество не может быть отрицательным или равным нулю");
+                    return;                    
                 }
             }
             try
@@ -149,7 +157,7 @@ namespace ConstructionStoreArzuTorg.Add
                     }
                     else
                     {
-                        MessageBox.Show("Ошибка");
+                        MessageBox.Show("Ошибка при добавлении товара");
                     }
                 }
             }
@@ -191,96 +199,102 @@ namespace ConstructionStoreArzuTorg.Add
         private void AddDeliverButton_Click(object sender, RoutedEventArgs e)
         {
             var selectedItem = tovarsGrid.SelectedItem as DeliveriesUpd;
-            using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+            try
             {
-
-
-                var joinedDataProduct = GetProductUpds().Where(x => x.Post == _поставки.ID).ToList();
-                var tovars = db.Товар.ToList();
-                var result = joinedDataProduct.GroupBy(t => t).GroupBy(t => t.Count()).ToArray();
-                var uniqueElements = result[0].Count();
-
-
-                Microsoft.Office.Interop.Word._Application wordApplication = new Microsoft.Office.Interop.Word.Application();
-                Microsoft.Office.Interop.Word._Document wordDocument = null;
-                wordApplication.Visible = true;
-
-                var templatePathObj = @"D:\Проекты\ConstructionStoreArzuTorgNew-master\ConstructionStoreArzuTorg\AddDocumentToPost.doc";
-
-                try
+                using (ConstructionStoreEntities db = new ConstructionStoreEntities())
                 {
-                    wordDocument = wordApplication.Documents.Add(templatePathObj);
-                }
-                catch (Exception exception)
-                {
-                    if (wordDocument != null)
+
+
+                    var joinedDataProduct = GetProductUpds().Where(x => x.Post == _поставки.ID).ToList();
+                    var tovars = db.Товар.ToList();
+                    var result = joinedDataProduct.GroupBy(t => t).GroupBy(t => t.Count()).ToArray();
+                    var uniqueElements = result[0].Count();
+
+
+                    Microsoft.Office.Interop.Word._Application wordApplication = new Microsoft.Office.Interop.Word.Application();
+                    Microsoft.Office.Interop.Word._Document wordDocument = null;
+                    wordApplication.Visible = true;
+
+                    //var templatePathObj = "/AddDocumentToPost.doc";
+
+                    var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                    var relativePath = "AddDocumentToPost.doc";
+                    var templatePathObj = System.IO.Path.Combine(baseDirectory, relativePath);
+
+                    try
                     {
-                        wordDocument.Close(false);
-                        wordDocument = null;
+                        wordDocument = wordApplication.Documents.Add(templatePathObj);
                     }
-                    wordApplication.Quit();
-                    wordApplication = null;
-                    throw;
-                }
+                    catch (Exception exception)
+                    {
+                        if (wordDocument != null)
+                        {
+                            wordDocument.Close(false);
+                            wordDocument = null;
+                        }
+                        wordApplication.Quit();
+                        wordApplication = null;
+                        MessageBox.Show("Файл не найден");
+                    }
 
 
 
 
-                var needObject = db.Поставки.Where(x => x.ID == _поставки.ID).FirstOrDefault();
-                var поставщик = db.Поставщик.Where(x => x.ID_Поставщика == needObject.Поставщик).FirstOrDefault();
-                var worker = db.Сотрудник.Where(x => x.ID_Сотрудника == needObject.Сотрудник).FirstOrDefault();
+                    var needObject = db.Поставки.Where(x => x.ID == _поставки.ID).FirstOrDefault();
+                    var поставщик = db.Поставщик.Where(x => x.ID_Поставщика == needObject.Поставщик).FirstOrDefault();
+                    var worker = db.Сотрудник.Where(x => x.ID_Сотрудника == needObject.Сотрудник).FirstOrDefault();
 
 
 
-                var needCount = uniqueElements + 1;
+                    var needCount = uniqueElements + 1;
 
-                wordApplication.Selection.Find.Execute("{Table}");
-                Microsoft.Office.Interop.Word.Range wordRange = wordApplication.Selection.Range;
-
-
-
-                var wordTable = wordDocument.Tables.Add(wordRange,
-                    needCount, 7);
-
-
-                wordTable.Borders.InsideLineStyle = Microsoft.Office.Interop.Word.WdLineStyle.wdLineStyleSingle;
-                wordTable.Borders.OutsideLineStyle = Microsoft.Office.Interop.Word.WdLineStyle.wdLineStyleDouble;
-                wordTable.Range.Font.Name = "Times New Roman";
-                wordTable.Range.Font.Size = 12;
-
-
-                wordTable.Cell(1, 1).Range.Text = "Наименование товара";
-                wordTable.Cell(1, 2).Range.Text = "Категория";
-                wordTable.Cell(1, 3).Range.Text = "Единица измерения";
-                wordTable.Cell(1, 4).Range.Text = "Количество";
-                wordTable.Cell(1, 5).Range.Text = "Стоимость";
-                wordTable.Cell(1, 6).Range.Text = "Сумма НДС";
-                wordTable.Cell(1, 7).Range.Text = "Стоимость с НДС";
+                    wordApplication.Selection.Find.Execute("{Table}");
+                    Microsoft.Office.Interop.Word.Range wordRange = wordApplication.Selection.Range;
 
 
 
+                    var wordTable = wordDocument.Tables.Add(wordRange,
+                        needCount, 7);
 
 
-                for (int i = 0; i < joinedDataProduct.Count; i++)
-                {
-                    wordTable.Cell(i + 2, 1).Range.Text = joinedDataProduct[i].Название;
-                    wordTable.Cell(i + 2, 2).Range.Text = joinedDataProduct[i].НазваниеКатегории;
-                    wordTable.Cell(i + 2, 3).Range.Text = joinedDataProduct[i].ЕдиницаИзмерения;
-                    wordTable.Cell(i + 2, 4).Range.Text = joinedDataProduct[i].Count.ToString();
-                    wordTable.Cell(i + 2, 5).Range.Text = joinedDataProduct[i].Стоимость.ToString() + " BYN";
-                    wordTable.Cell(i + 2, 6).Range.Text = joinedDataProduct[i].SumNDS.ToString() + " BYN";
-                    wordTable.Cell(i + 2, 7).Range.Text = joinedDataProduct[i].SumWithNDS.ToString() + " BYN";
-                }
+                    wordTable.Borders.InsideLineStyle = Microsoft.Office.Interop.Word.WdLineStyle.wdLineStyleSingle;
+                    wordTable.Borders.OutsideLineStyle = Microsoft.Office.Interop.Word.WdLineStyle.wdLineStyleDouble;
+                    wordTable.Range.Font.Name = "Times New Roman";
+                    wordTable.Range.Font.Size = 12;
 
 
-                decimal nds = needObject.Сумма * 20 / 120;
-                decimal sumNoNDS = needObject.Сумма - nds;
-                //decimal cena = sumNoNDS / joinedDataProduct.Count;
+                    wordTable.Cell(1, 1).Range.Text = "Наименование товара";
+                    wordTable.Cell(1, 2).Range.Text = "Категория";
+                    wordTable.Cell(1, 3).Range.Text = "Единица измерения";
+                    wordTable.Cell(1, 4).Range.Text = "Количество";
+                    wordTable.Cell(1, 5).Range.Text = "Стоимость";
+                    wordTable.Cell(1, 6).Range.Text = "Сумма НДС";
+                    wordTable.Cell(1, 7).Range.Text = "Стоимость с НДС";
 
 
-                Random random = new Random();
 
-                var items = new Dictionary<string, string>
+
+
+                    for (int i = 0; i < joinedDataProduct.Count; i++)
+                    {
+                        wordTable.Cell(i + 2, 1).Range.Text = joinedDataProduct[i].Название;
+                        wordTable.Cell(i + 2, 2).Range.Text = joinedDataProduct[i].НазваниеКатегории;
+                        wordTable.Cell(i + 2, 3).Range.Text = joinedDataProduct[i].ЕдиницаИзмерения;
+                        wordTable.Cell(i + 2, 4).Range.Text = joinedDataProduct[i].Count.ToString();
+                        wordTable.Cell(i + 2, 5).Range.Text = Math.Round(joinedDataProduct[i].Стоимость, 2).ToString() + " BYN";
+                        wordTable.Cell(i + 2, 6).Range.Text = Math.Round(joinedDataProduct[i].SumNDS, 2).ToString() + " BYN";
+                        wordTable.Cell(i + 2, 7).Range.Text = Math.Round(joinedDataProduct[i].SumWithNDS, 2).ToString() + " BYN";
+                    }
+
+
+                    decimal nds = needObject.Сумма * 20 / 120;
+                    decimal sumNoNDS = needObject.Сумма - nds;
+                    //decimal cena = sumNoNDS / joinedDataProduct.Count;
+
+
+                    Random random = new Random();
+
+                    var items = new Dictionary<string, string>
                 {
                     { "{Date}", needObject.Дата.ToString("dd.MM.yyyy")  },
                     { "{NameProvider}",  поставщик.Наименование },
@@ -295,28 +309,35 @@ namespace ConstructionStoreArzuTorg.Add
                 };
 
 
-                foreach (var item in items)
-                {
-                    Microsoft.Office.Interop.Word.Find find = wordApplication.Selection.Find;
-                    find.Text = item.Key;
-                    find.Replacement.Text = item.Value;
+                    foreach (var item in items)
+                    {
+                        Microsoft.Office.Interop.Word.Find find = wordApplication.Selection.Find;
+                        find.Text = item.Key;
+                        find.Replacement.Text = item.Value;
 
-                    object wrap = Microsoft.Office.Interop.Word.WdFindWrap.wdFindContinue;
-                    object replace = Microsoft.Office.Interop.Word.WdReplace.wdReplaceAll;
+                        object wrap = Microsoft.Office.Interop.Word.WdFindWrap.wdFindContinue;
+                        object replace = Microsoft.Office.Interop.Word.WdReplace.wdReplaceAll;
 
-                    find.Execute(
-                        FindText: Type.Missing,
-                        MatchCase: false,
-                        MatchWholeWord: false,
-                        MatchWildcards: false,
-                        MatchSoundsLike: Type.Missing,
-                        MatchAllWordForms: false,
-                        Forward: true,
-                        Wrap: wrap,
-                        Format: false,
-                        ReplaceWith: Type.Missing, Replace: replace);
+                        find.Execute(
+                            FindText: Type.Missing,
+                            MatchCase: false,
+                            MatchWholeWord: false,
+                            MatchWildcards: false,
+                            MatchSoundsLike: Type.Missing,
+                            MatchAllWordForms: false,
+                            Forward: true,
+                            Wrap: wrap,
+                            Format: false,
+                            ReplaceWith: Type.Missing, Replace: replace);
+                    }
                 }
             }
+            catch 
+            {
+
+                MessageBox.Show("Ошибка формирования документа");
+            }
+            
 
 
 

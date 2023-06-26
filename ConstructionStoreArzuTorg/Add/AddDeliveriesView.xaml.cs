@@ -44,7 +44,7 @@ namespace ConstructionStoreArzuTorg.Add
                     var comboBox = (ComboBox)control;
                     if (comboBox.SelectedValue == null || comboBox.SelectedValue.ToString() == string.Empty)
                     {
-                        MessageBox.Show("Ошибка");
+                        MessageBox.Show("Не выбран поставщик");
                         return;
                     }
                 }

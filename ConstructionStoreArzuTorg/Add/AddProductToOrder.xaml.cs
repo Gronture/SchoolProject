@@ -190,7 +190,7 @@ namespace ConstructionStoreArzuTorg.Add
             }
             
         }
-
+        //метод удаление товара из заказа
         private void DeleteProductButton_Click(object sender, RoutedEventArgs e)
         {
             using (ConstructionStoreEntities db = new ConstructionStoreEntities())
@@ -212,10 +212,10 @@ namespace ConstructionStoreArzuTorg.Add
                 x.Заказ == _заказ.ID_Заказа &&
                 x.Количество == selectedItem.Count &&
                 x.Товар == needProduct.ID_Товара).FirstOrDefault();
-
+                //удаление товара
                 db.ЗаказанныеТовары.Remove(itemToRemove);
                 db.SaveChanges();
-
+                //обновление дата грида
                 UpdateView();
             }
         }
@@ -270,115 +270,121 @@ namespace ConstructionStoreArzuTorg.Add
 
             if (ifIxist)
             {
-                using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+                try
                 {
-                    var chektech = GetProductUpds().Where(x => x.Ord == _заказ.ID_Заказа);
-
-                    var joinedDataProduct = GetProductUpds().Where(x => x.Ord == _заказ.ID_Заказа && x.НазваниеКатегории == "Техника").ToList();
-                    var tovars = db.Товар.ToList();
-                    var result = joinedDataProduct.GroupBy(t => t).GroupBy(t => t.Count()).ToArray();
-                    var uniqueElements = result[0].Count();
-
-
-                    Microsoft.Office.Interop.Word._Application wordApplication = new Microsoft.Office.Interop.Word.Application();
-                    Microsoft.Office.Interop.Word._Document wordDocument = null;
-                    wordApplication.Visible = true;
-
-                    var templatePathObj = @"C:\Users\holok\OneDrive\Рабочий стол\ConstructionStoreArzuTorg-master\ConstructionStoreArzuTorg\Талон.docx";
-
-                    try
+                    using (ConstructionStoreEntities db = new ConstructionStoreEntities())
                     {
-                        wordDocument = wordApplication.Documents.Add(templatePathObj);
-                    }
-                    catch (Exception exception)
-                    {
-                        if (wordDocument != null)
+                        var chektech = GetProductUpds().Where(x => x.Ord == _заказ.ID_Заказа);
+
+                        var joinedDataProduct = GetProductUpds().Where(x => x.Ord == _заказ.ID_Заказа && x.НазваниеКатегории == "Техника").ToList();
+                        var tovars = db.Товар.ToList();
+                        var result = joinedDataProduct.GroupBy(t => t).GroupBy(t => t.Count()).ToArray();
+                        var uniqueElements = result[0].Count();
+
+
+                        Microsoft.Office.Interop.Word._Application wordApplication = new Microsoft.Office.Interop.Word.Application();
+                        Microsoft.Office.Interop.Word._Document wordDocument = null;
+                        wordApplication.Visible = true;
+
+                        //var templatePathObj = @"D:\Проекты\ConstructionStoreArzuTorg-master\ConstructionStoreArzuTorg\";
+
+
+                        var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                        var relativePath = "Талон.docx";
+                        var templatePathObj = System.IO.Path.Combine(baseDirectory, relativePath);
+
+                        try
                         {
-                            wordDocument.Close(false);
-                            wordDocument = null;
+                            wordDocument = wordApplication.Documents.Add(templatePathObj);
                         }
-                        wordApplication.Quit();
-                        wordApplication = null;
-                        throw;
-                    }
+                        catch (Exception exception)
+                        {
+                            if (wordDocument != null)
+                            {
+                                wordDocument.Close(false);
+                                wordDocument = null;
+                            }
+                            wordApplication.Quit();
+                            wordApplication = null;
+                            MessageBox.Show("Файл не найдет");
+                        }
 
 
 
 
 
-                    var needCount = uniqueElements + 1;
+                        var needCount = uniqueElements + 1;
 
-                    wordApplication.Selection.Find.Execute("{Table}");
-                    Microsoft.Office.Interop.Word.Range wordRange = wordApplication.Selection.Range;
-
-
-
-                    var wordTable = wordDocument.Tables.Add(wordRange,
-                        needCount, 2);
-
-                    
-
-                    wordTable.Borders.InsideLineStyle = Microsoft.Office.Interop.Word.WdLineStyle.wdLineStyleSingle;
-                    wordTable.Borders.OutsideLineStyle = Microsoft.Office.Interop.Word.WdLineStyle.wdLineStyleDouble;
-                    wordTable.Range.Font.Name = "Times New Roman";
-                    wordTable.Range.Font.Size = 12;
-
-
-                    wordTable.Cell(1, 1).Range.Text = "Наименование товара";
-                    wordTable.Cell(1, 2).Range.Text = "Гарантия до";
-
-
-                    DateTime date = DateTime.Now;
-                    DateTime newDate = date.AddYears(1);
-                    for (int i = 0; i < joinedDataProduct.Count; i++)
-                    {
-                        wordTable.Cell(i + 2, 1).Range.Text = joinedDataProduct[i].Название;
-                        wordTable.Cell(i + 2, 2).Range.Text = newDate.ToString();
-
-                    }
-
-                    Random random = new Random();
+                        wordApplication.Selection.Find.Execute("{Table}");
+                        Microsoft.Office.Interop.Word.Range wordRange = wordApplication.Selection.Range;
 
 
 
+                        var wordTable = wordDocument.Tables.Add(wordRange,
+                            needCount, 2);
 
-                    var items = new Dictionary<string, string>
+
+
+                        wordTable.Borders.InsideLineStyle = Microsoft.Office.Interop.Word.WdLineStyle.wdLineStyleSingle;
+                        wordTable.Borders.OutsideLineStyle = Microsoft.Office.Interop.Word.WdLineStyle.wdLineStyleDouble;
+                        wordTable.Range.Font.Name = "Times New Roman";
+                        wordTable.Range.Font.Size = 12;
+
+
+                        wordTable.Cell(1, 1).Range.Text = "Наименование товара";
+                        wordTable.Cell(1, 2).Range.Text = "Гарантия до";
+
+
+                        DateTime date = DateTime.Now;
+                        DateTime newDate = date.AddYears(1);
+                        for (int i = 0; i < joinedDataProduct.Count; i++)
+                        {
+                            wordTable.Cell(i + 2, 1).Range.Text = joinedDataProduct[i].Название;
+                            wordTable.Cell(i + 2, 2).Range.Text = newDate.ToString();
+
+                        }
+
+                        Random random = new Random();
+
+
+
+
+                        var items = new Dictionary<string, string>
                 {
                     { "{Date}", DateTime.Now.ToShortDateString()  },
                     { "{Number}",  random.Next(1000000, 9999999).ToString() }
                 };
 
 
-                    foreach (var item in items)
-                    {
-                        Microsoft.Office.Interop.Word.Find find = wordApplication.Selection.Find;
-                        find.Text = item.Key;
-                        find.Replacement.Text = item.Value;
+                        foreach (var item in items)
+                        {
+                            Microsoft.Office.Interop.Word.Find find = wordApplication.Selection.Find;
+                            find.Text = item.Key;
+                            find.Replacement.Text = item.Value;
 
-                        object wrap = Microsoft.Office.Interop.Word.WdFindWrap.wdFindContinue;
-                        object replace = Microsoft.Office.Interop.Word.WdReplace.wdReplaceAll;
+                            object wrap = Microsoft.Office.Interop.Word.WdFindWrap.wdFindContinue;
+                            object replace = Microsoft.Office.Interop.Word.WdReplace.wdReplaceAll;
 
-                        find.Execute(
-                            FindText: Type.Missing,
-                            MatchCase: false,
-                            MatchWholeWord: false,
-                            MatchWildcards: false,
-                            MatchSoundsLike: Type.Missing,
-                            MatchAllWordForms: false,
-                            Forward: true,
-                            Wrap: wrap,
-                            Format: false,
-                            ReplaceWith: Type.Missing, Replace: replace);
+                            find.Execute(
+                                FindText: Type.Missing,
+                                MatchCase: false,
+                                MatchWholeWord: false,
+                                MatchWildcards: false,
+                                MatchSoundsLike: Type.Missing,
+                                MatchAllWordForms: false,
+                                Forward: true,
+                                Wrap: wrap,
+                                Format: false,
+                                ReplaceWith: Type.Missing, Replace: replace);
+                        }
                     }
                 }
+                catch 
+                {
 
-
-
-
-
-
-
-
+                    MessageBox.Show("Ошибка формирования гарантийного талона");
+                }
+                
                 new OrderListView().Show();
                 Close();
             }
@@ -400,9 +406,10 @@ namespace ConstructionStoreArzuTorg.Add
                 Close();
             }
         }
-
+        //выбор товаров
         private void ProductComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //проверка что комбобокс с товарами не равен null
             if (ProductComboBox.SelectedItem == null)
                 return;
             using (ConstructionStoreEntities db = new ConstructionStoreEntities())
@@ -432,7 +439,7 @@ namespace ConstructionStoreArzuTorg.Add
                     size.Add(needSize.Размер);
                 }
 
-
+                //удаляем дублированные элементы из входной последовательности категорий, единиц измерения и размеров
                 CategorComboBox.ItemsSource = categories.Distinct();
                 EdIzmComboBox.ItemsSource = unitOfWork.Distinct();
                 RazmerComboBox.ItemsSource = size.Distinct();
@@ -440,9 +447,10 @@ namespace ConstructionStoreArzuTorg.Add
 
             }
         }
-
+        //выбор категории
         private void CategorComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //проверка что комбобокс категорий не null
             if (CategorComboBox.SelectedItem == null)
                 return;
             using (ConstructionStoreEntities db = new ConstructionStoreEntities())
@@ -458,19 +466,20 @@ namespace ConstructionStoreArzuTorg.Add
 
                 for (int i = 0; i < needProducts.Count; i++)
                 {
-                    // var unitOfWork = db.Единицы_измерения.Where(x => x.ID_Измерений == needProducts[i].ID_Категории).FirstOrDefault();
                     var size = sizes.Where(x => x.ID_Размеров == needProducts[i].ID_Размеров).FirstOrDefault();
                     newSizes.Add(size.Размер);
 
                 }
+                //удаляем дублированные элементы из входной последовательности размеров
 
                 RazmerComboBox.ItemsSource = newSizes.Distinct();
 
             }
         }
-
+        //выбор размера
         private void RazmerComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //проверка что комбобокс размеров не null
             if (RazmerComboBox.SelectedItem == null)
                 return;
             using (ConstructionStoreEntities db = new ConstructionStoreEntities())
@@ -493,6 +502,8 @@ namespace ConstructionStoreArzuTorg.Add
 
 
                 }
+                //удаляем дублированные элементы из входной последовательности единиц измерения
+
                 EdIzmComboBox.ItemsSource = newUnitOfWorks.Distinct();
 
 

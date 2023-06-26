@@ -197,16 +197,23 @@ namespace ConstructionStoreArzuTorg.Employee
         private void DeleteRezervButton_Click(object sender, RoutedEventArgs e)
         {
             var selectedItem = grid.SelectedItem as RezervUpd;
-
-            using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+            try
             {
-                var item = db.Резервация.Where(x => x.ID == selectedItem.ID).FirstOrDefault();
-                db.Резервация.Remove(item);
-                db.SaveChanges();
+                using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+                {
+                    var item = db.Резервация.Where(x => x.ID == selectedItem.ID).FirstOrDefault();
+                    db.Резервация.Remove(item);
+                    db.SaveChanges();
 
-                Update();
+                    Update();
 
+                }
             }
+            catch
+            {
+                MessageBox.Show("Ошибка удаления резервации");
+            }
+            
         }
     }
 }

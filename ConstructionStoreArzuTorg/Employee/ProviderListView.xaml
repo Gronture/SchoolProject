@@ -16,6 +16,7 @@
                 <DataGridTextColumn Binding="{Binding Код_банка}" Header="Код банка" Width="90" FontFamily="Times New Roman"/>
                 <DataGridTextColumn Binding="{Binding Адрес}" Header="Адрес" Width="180" FontFamily="Times New Roman"/>
                 <DataGridTextColumn Binding="{Binding ФИО}" Header="ФИО поставщика" Width="180" FontFamily="Times New Roman"/>
+                <DataGridTextColumn Binding="{Binding Телефон}" Header="Телефон" Width="120" FontFamily="Times New Roman"/>
                 <DataGridTextColumn Binding="{Binding Должность}" Header="Должность" Width="120" FontFamily="Times New Roman"/>
                 <DataGridTextColumn Binding="{Binding Почта}" Header="Почта" Width="180" FontFamily="Times New Roman"/>
             </DataGrid.Columns>

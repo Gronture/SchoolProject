@@ -35,21 +35,31 @@ namespace ConstructionStoreArzuTorg.Add
                     var textbox = (TextBox)control;
                     if (textbox.Text == string.Empty)
                     {
-                        MessageBox.Show("Ошибка");
+                        MessageBox.Show("Не все текстовые поля заполнены");
                         return;
                     }
                 }
             }
-            using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+            var procent = int.Parse(DiscountsTextBox.Text);
+            if (procent >= 0)
             {
-                Сезонность скидки = new Сезонность();
-                скидки.Название_сезона = SeasonTextBox.Text;
-                скидки.Процент = int.Parse(DiscountsTextBox.Text);
-                db.Сезонность.Add(скидки);
-                db.SaveChanges();
+                using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+                {
+                    Сезонность скидки = new Сезонность();
+                    скидки.Название_сезона = SeasonTextBox.Text;
+                    скидки.Процент = int.Parse(DiscountsTextBox.Text);
+                    db.Сезонность.Add(скидки);
+                    db.SaveChanges();
+                }
+                new DiscountsMenu().Show();
+                Close();
             }
-            new DiscountsMenu().Show();
-            Close();
+            else
+            {
+                MessageBox.Show("Скидка не может быть отрицательной");
+                DiscountsTextBox.Clear();
+            }
+            
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)

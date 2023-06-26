@@ -159,37 +159,45 @@ namespace ConstructionStoreArzuTorg.Add
             }
             catch
             {
-
+                MessageBox.Show("Ошибка");
             }
         }
 
         private void DeleteProductButton_Click(object sender, RoutedEventArgs e)
         {
-            using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+            try
             {
-                var selectedItem = tovarsGrid.SelectedItem as ProductUpd;
-                var productName = selectedItem.Название;
+                using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+                {
+                    var selectedItem = tovarsGrid.SelectedItem as ProductUpd;
+                    var productName = selectedItem.Название;
 
-                var categoria = db.Категория.Where(x => x.Название == selectedItem.НазваниеКатегории).FirstOrDefault();
-                var size = db.РазмерыТовара.Where(x => x.Размер == selectedItem.Размеры).FirstOrDefault();
-                var unitOfWork = db.Единицы_измерения.Where(x => x.Название == selectedItem.ЕдиницаИзмерения).FirstOrDefault();
+                    var categoria = db.Категория.Where(x => x.Название == selectedItem.НазваниеКатегории).FirstOrDefault();
+                    var size = db.РазмерыТовара.Where(x => x.Размер == selectedItem.Размеры).FirstOrDefault();
+                    var unitOfWork = db.Единицы_измерения.Where(x => x.Название == selectedItem.ЕдиницаИзмерения).FirstOrDefault();
 
-                var needProduct = db.Товар.Where(x =>
-                x.ID_Категории == categoria.ID_Категории &&
-                x.ID_Размеров == size.ID_Размеров &&
-                x.ID_Единицы_измерения == unitOfWork.ID_Измерений &&
-                x.Название == productName).FirstOrDefault();
+                    var needProduct = db.Товар.Where(x =>
+                    x.ID_Категории == categoria.ID_Категории &&
+                    x.ID_Размеров == size.ID_Размеров &&
+                    x.ID_Единицы_измерения == unitOfWork.ID_Измерений &&
+                    x.Название == productName).FirstOrDefault();
 
-                var itemToRemove = db.РезервацияТоваров.Where(x =>
-                x.Резервирование == _резервация.ID &&
-                x.Количество == selectedItem.Count &&
-                x.Товар == needProduct.ID_Товара).FirstOrDefault();
+                    var itemToRemove = db.РезервацияТоваров.Where(x =>
+                    x.Резервирование == _резервация.ID &&
+                    x.Количество == selectedItem.Count &&
+                    x.Товар == needProduct.ID_Товара).FirstOrDefault();
 
-                db.РезервацияТоваров.Remove(itemToRemove);
-                db.SaveChanges();
+                    db.РезервацияТоваров.Remove(itemToRemove);
+                    db.SaveChanges();
 
-                UpdateView();
+                    UpdateView();
+                }
             }
+            catch 
+            {
+                MessageBox.Show("Ошибка удаления товара из резервации");
+            }
+            
         }
 
         
@@ -256,9 +264,123 @@ namespace ConstructionStoreArzuTorg.Add
             bool ifIxist = GetProductUpds().Where(x => x.Rezerv == _резервация.ID && x.НазваниеКатегории == "Техника").ToList().Any();
             if (ifIxist)
             {
+                try
+                {
+                    using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+                    {
+                        var joinedDataProduct = GetProductUpds().Where(x => x.Rezerv == _резервация.ID && x.НазваниеКатегории == "Техника").ToList();
+                        var tovars = db.Товар.ToList();
+                        var result = joinedDataProduct.GroupBy(t => t).GroupBy(t => t.Count()).ToArray();
+                        var uniqueElements = result[0].Count();
+
+
+                        Microsoft.Office.Interop.Word._Application wordApplication = new Microsoft.Office.Interop.Word.Application();
+                        Microsoft.Office.Interop.Word._Document wordDocument = null;
+                        wordApplication.Visible = true;
+
+                        //var templatePathObj = @"D:\Проекты\ConstructionStoreArzuTorgNew-master\ConstructionStoreArzuTorg\Талон.docx";
+
+                        var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                        var relativePath = "Талон.docx";
+                        var templatePathObj = System.IO.Path.Combine(baseDirectory, relativePath);
+
+                        try
+                        {
+                            wordDocument = wordApplication.Documents.Add(templatePathObj);
+                        }
+                        catch (Exception exception)
+                        {
+                            if (wordDocument != null)
+                            {
+                                wordDocument.Close(false);
+                                wordDocument = null;
+                            }
+                            wordApplication.Quit();
+                            wordApplication = null;
+                            MessageBox.Show("Файл не найден");
+                        }
+
+
+                        var needCount = uniqueElements + 1;
+
+                        wordApplication.Selection.Find.Execute("{Table}");
+                        Microsoft.Office.Interop.Word.Range wordRange = wordApplication.Selection.Range;
+
+
+
+                        var wordTable = wordDocument.Tables.Add(wordRange,
+                            needCount, 2);
+
+
+                        wordTable.Borders.InsideLineStyle = Microsoft.Office.Interop.Word.WdLineStyle.wdLineStyleSingle;
+                        wordTable.Borders.OutsideLineStyle = Microsoft.Office.Interop.Word.WdLineStyle.wdLineStyleDouble;
+                        wordTable.Range.Font.Name = "Times New Roman";
+                        wordTable.Range.Font.Size = 12;
+
+
+                        wordTable.Cell(1, 1).Range.Text = "Наименование товара";
+                        wordTable.Cell(1, 2).Range.Text = "Гарантия до";
+
+
+                        DateTime date = DateTime.Now;
+                        DateTime newDate = date.AddYears(1);
+                        for (int i = 0; i < joinedDataProduct.Count; i++)
+                        {
+                            wordTable.Cell(i + 2, 1).Range.Text = joinedDataProduct[i].Название;
+                            wordTable.Cell(i + 2, 2).Range.Text = newDate.ToString();
+
+                        }
+
+                        Random random = new Random();
+
+
+                        var items = new Dictionary<string, string>
+                {
+                    { "{Date}", DateTime.Now.ToShortDateString()  },
+                    { "{Number}",  random.Next(1000000, 9999999).ToString() }
+                };
+
+
+                        foreach (var item in items)
+                        {
+                            Microsoft.Office.Interop.Word.Find find = wordApplication.Selection.Find;
+                            find.Text = item.Key;
+                            find.Replacement.Text = item.Value;
+
+                            object wrap = Microsoft.Office.Interop.Word.WdFindWrap.wdFindContinue;
+                            object replace = Microsoft.Office.Interop.Word.WdReplace.wdReplaceAll;
+
+                            find.Execute(
+                                FindText: Type.Missing,
+                                MatchCase: false,
+                                MatchWholeWord: false,
+                                MatchWildcards: false,
+                                MatchSoundsLike: Type.Missing,
+                                MatchAllWordForms: false,
+                                Forward: true,
+                                Wrap: wrap,
+                                Format: false,
+                                ReplaceWith: Type.Missing, Replace: replace);
+                        }
+                    }
+                }
+                catch 
+                {
+                    MessageBox.Show("Ошибка формирования гарантийного талона");
+                }
+            }
+
+        }
+        private void AddRezervButton_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = tovarsGrid.SelectedItem as RezervUpd;
+            try
+            {
                 using (ConstructionStoreEntities db = new ConstructionStoreEntities())
                 {
-                    var joinedDataProduct = GetProductUpds().Where(x => x.Rezerv == _резервация.ID && x.НазваниеКатегории == "Техника").ToList();
+
+
+                    var joinedDataProduct = GetProductUpds().Where(x => x.Rezerv == _резервация.ID).ToList();
                     var tovars = db.Товар.ToList();
                     var result = joinedDataProduct.GroupBy(t => t).GroupBy(t => t.Count()).ToArray();
                     var uniqueElements = result[0].Count();
@@ -268,7 +390,11 @@ namespace ConstructionStoreArzuTorg.Add
                     Microsoft.Office.Interop.Word._Document wordDocument = null;
                     wordApplication.Visible = true;
 
-                    var templatePathObj = @"D:\Проекты\ConstructionStoreArzuTorgNew-master\ConstructionStoreArzuTorg\Талон.docx";
+                    //var templatePathObj = @"D:\Проекты\ConstructionStoreArzuTorgNew-master\ConstructionStoreArzuTorg\RezervReport.docx";
+
+                    var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                    var relativePath = "RezervReport.docx";
+                    var templatePathObj = System.IO.Path.Combine(baseDirectory, relativePath);
 
                     try
                     {
@@ -283,13 +409,12 @@ namespace ConstructionStoreArzuTorg.Add
                         }
                         wordApplication.Quit();
                         wordApplication = null;
-                        throw;
+                        MessageBox.Show("Файл не найден");
                     }
 
 
-
-
-
+                    var needObject = db.Резервация.Where(x => x.ID == _резервация.ID).FirstOrDefault();
+                    var client = db.Клиент.Where(x => x.ID_Клиента == needObject.Клиент).FirstOrDefault();
                     var needCount = uniqueElements + 1;
 
                     wordApplication.Selection.Find.Execute("{Table}");
@@ -298,7 +423,7 @@ namespace ConstructionStoreArzuTorg.Add
 
 
                     var wordTable = wordDocument.Tables.Add(wordRange,
-                        needCount, 2);
+                        needCount, 4);
 
 
                     wordTable.Borders.InsideLineStyle = Microsoft.Office.Interop.Word.WdLineStyle.wdLineStyleSingle;
@@ -307,8 +432,11 @@ namespace ConstructionStoreArzuTorg.Add
                     wordTable.Range.Font.Size = 12;
 
 
-                    wordTable.Cell(1, 1).Range.Text = "Наименование товара";
-                    wordTable.Cell(1, 2).Range.Text = "Гарантия до";
+                    wordTable.Cell(1, 1).Range.Text = "Наименование";
+                    wordTable.Cell(1, 2).Range.Text = "Кол-во";
+                    wordTable.Cell(1, 3).Range.Text = "Цена за шт";
+                    wordTable.Cell(1, 4).Range.Text = "Сумма";
+
 
 
                     DateTime date = DateTime.Now;
@@ -317,18 +445,22 @@ namespace ConstructionStoreArzuTorg.Add
                     {
                         wordTable.Cell(i + 2, 1).Range.Text = joinedDataProduct[i].Название;
                         wordTable.Cell(i + 2, 2).Range.Text = newDate.ToString();
+                        wordTable.Cell(i + 2, 3).Range.Text = Math.Round(joinedDataProduct[i].Стоимость, 2).ToString() + " BYN";
+                        wordTable.Cell(i + 2, 4).Range.Text = Math.Round(joinedDataProduct[i].SumToReceipt, 2).ToString() + " BYN";
 
                     }
 
                     Random random = new Random();
 
 
-
-
                     var items = new Dictionary<string, string>
                 {
                     { "{Date}", DateTime.Now.ToShortDateString()  },
-                    { "{Number}",  random.Next(1000000, 9999999).ToString() }
+                    { "{Number}",  random.Next(1000000, 9999999).ToString() },
+                    { "{FIO}", client.Фамилия + " " + client.Имя + " " + client.Отчество },
+                    { "{Address}", client.Адрес },
+                    { "{Phone}", client.Телефон}
+
                 };
 
 
@@ -354,124 +486,12 @@ namespace ConstructionStoreArzuTorg.Add
                             ReplaceWith: Type.Missing, Replace: replace);
                     }
                 }
-            
             }
-
-        }
-        private void AddRezervButton_Click(object sender, RoutedEventArgs e)
-        {
-            var selectedItem = tovarsGrid.SelectedItem as RezervUpd;
-
-            using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+            catch 
             {
-
-
-                var joinedDataProduct = GetProductUpds().Where(x => x.Rezerv == _резервация.ID).ToList();
-                var tovars = db.Товар.ToList();
-                var result = joinedDataProduct.GroupBy(t => t).GroupBy(t => t.Count()).ToArray();
-                var uniqueElements = result[0].Count();
-
-
-                Microsoft.Office.Interop.Word._Application wordApplication = new Microsoft.Office.Interop.Word.Application();
-                Microsoft.Office.Interop.Word._Document wordDocument = null;
-                wordApplication.Visible = true;
-
-                var templatePathObj = @"D:\Проекты\ConstructionStoreArzuTorgNew-master\ConstructionStoreArzuTorg\RezervReport.docx";
-
-                try
-                {
-                    wordDocument = wordApplication.Documents.Add(templatePathObj);
-                }
-                catch (Exception exception)
-                {
-                    if (wordDocument != null)
-                    {
-                        wordDocument.Close(false);
-                        wordDocument = null;
-                    }
-                    wordApplication.Quit();
-                    wordApplication = null;
-                    throw;
-                }
-
-
-
-                
-                var needObject = db.Резервация.Where(x => x.ID == _резервация.ID).FirstOrDefault();
-                var client = db.Клиент.Where(x => x.ID_Клиента == needObject.Клиент).FirstOrDefault();
-                var needCount = uniqueElements + 1;
-
-                wordApplication.Selection.Find.Execute("{Table}");
-                Microsoft.Office.Interop.Word.Range wordRange = wordApplication.Selection.Range;
-
-
-
-                var wordTable = wordDocument.Tables.Add(wordRange,
-                    needCount, 4);
-
-
-                wordTable.Borders.InsideLineStyle = Microsoft.Office.Interop.Word.WdLineStyle.wdLineStyleSingle;
-                wordTable.Borders.OutsideLineStyle = Microsoft.Office.Interop.Word.WdLineStyle.wdLineStyleDouble;
-                wordTable.Range.Font.Name = "Times New Roman";
-                wordTable.Range.Font.Size = 12;
-
-
-                wordTable.Cell(1, 1).Range.Text = "Наименование";
-                wordTable.Cell(1, 2).Range.Text = "Кол-во";
-                wordTable.Cell(1, 3).Range.Text = "Цена за шт";
-                wordTable.Cell(1, 4).Range.Text = "Сумма";
-
-
-
-                DateTime date = DateTime.Now;
-                DateTime newDate = date.AddYears(1);
-                for (int i = 0; i < joinedDataProduct.Count; i++)
-                {
-                    wordTable.Cell(i + 2, 1).Range.Text = joinedDataProduct[i].Название;
-                    wordTable.Cell(i + 2, 2).Range.Text = newDate.ToString();
-                    wordTable.Cell(i + 2, 3).Range.Text = Math.Round(joinedDataProduct[i].Стоимость, 2).ToString() + " BYN";
-                    wordTable.Cell(i + 2, 4).Range.Text = Math.Round(joinedDataProduct[i].SumToReceipt, 2).ToString() + " BYN";
-
-                }
-
-                Random random = new Random();
-
-
-
-
-                var items = new Dictionary<string, string>
-                {
-                    { "{Date}", DateTime.Now.ToShortDateString()  },
-                    { "{Number}",  random.Next(1000000, 9999999).ToString() },
-                    { "{FIO}", client.Фамилия + " " + client.Имя + " " + client.Отчество },
-                    { "{Address}", client.Адрес },
-                    { "{Phone}", client.Телефон}
-
-                };
-
-
-                foreach (var item in items)
-                {
-                    Microsoft.Office.Interop.Word.Find find = wordApplication.Selection.Find;
-                    find.Text = item.Key;
-                    find.Replacement.Text = item.Value;
-
-                    object wrap = Microsoft.Office.Interop.Word.WdFindWrap.wdFindContinue;
-                    object replace = Microsoft.Office.Interop.Word.WdReplace.wdReplaceAll;
-
-                    find.Execute(
-                        FindText: Type.Missing,
-                        MatchCase: false,
-                        MatchWholeWord: false,
-                        MatchWildcards: false,
-                        MatchSoundsLike: Type.Missing,
-                        MatchAllWordForms: false,
-                        Forward: true,
-                        Wrap: wrap,
-                        Format: false,
-                        ReplaceWith: Type.Missing, Replace: replace);
-                }
+                MessageBox.Show("Ошибка формирования документа о резервации");
             }
+            
 
 
             AddTech();

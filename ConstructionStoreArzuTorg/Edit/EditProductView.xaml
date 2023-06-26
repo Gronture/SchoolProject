@@ -12,7 +12,7 @@
         <Label Content="Размеры" HorizontalAlignment="Left" Margin="30,120,0,0" VerticalAlignment="Top"/>
         <Label Content="Ед.измерения." HorizontalAlignment="Left" Margin="30,160,0,0" VerticalAlignment="Top"/>
         <Label Content="Стоимость" HorizontalAlignment="Left" Margin="30,200,0,0" VerticalAlignment="Top"/>
-        <Label Content="Скидка" HorizontalAlignment="Left" Margin="30,240,0,0" VerticalAlignment="Top"/>
+        <Label Content="Сезонная скидка" HorizontalAlignment="Left" Margin="30,240,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="NameTextBox" HorizontalAlignment="Left" Margin="180,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <ComboBox x:Name="CategoryComboBox" HorizontalAlignment="Left" Margin="180,80,0,0" VerticalAlignment="Top" Width="120"/>
         <ComboBox x:Name="DimensionsComboBox" HorizontalAlignment="Left" Margin="180,120,0,0" VerticalAlignment="Top" Width="120"/>

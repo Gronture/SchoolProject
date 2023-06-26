@@ -35,7 +35,7 @@ namespace ConstructionStoreArzuTorg.Add
                     var textbox = (TextBox)control;
                     if (textbox.Text == string.Empty)
                     {
-                        MessageBox.Show("Ошибка");
+                        MessageBox.Show("Не заполнены текстовые поля");
                         return;
                     }
 
@@ -45,7 +45,7 @@ namespace ConstructionStoreArzuTorg.Add
                     var comboBox = (ComboBox)control;
                     if (comboBox.SelectedValue == null || comboBox.SelectedValue.ToString() == string.Empty)
                     {
-                        MessageBox.Show("Ошибка");
+                        MessageBox.Show("Не выбрана должность");
                         return;
                     }
                 }

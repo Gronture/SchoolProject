@@ -44,6 +44,7 @@ namespace ConstructionStoreArzuTorg
                      .FirstOrDefault(u => u.Логин == LoginTextBox.Text && u.Пароль == PasswordBox.Password);
                 if (needUser is null)
                 {
+                    MessageBox.Show("Неверный логин или пароль");
                     Clear();
                     return;
                 }
