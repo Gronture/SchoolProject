@@ -173,19 +173,19 @@ namespace ConstructionStoreArzuTorg.Add
                         }
                         else
                         {
-                            MessageBox.Show("Ошибка");
+                            MessageBox.Show("Ошибка при добавлении товара");
                         }
                     }
                     else
                     {
-                        MessageBox.Show("Ошибка");
+                        MessageBox.Show("Ошибка, недостаточно товара на складе");
                     }
                    
                 }
             }
             catch 
             {
-
+                MessageBox.Show("Ошибка при добавлении товара");
                 
             }
             
@@ -193,31 +193,39 @@ namespace ConstructionStoreArzuTorg.Add
         //метод удаление товара из заказа
         private void DeleteProductButton_Click(object sender, RoutedEventArgs e)
         {
-            using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+            try
             {
-                var selectedItem = tovarsGrid.SelectedItem as ProductUpd;
-                var productName = selectedItem.Название;
+                using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+                {
+                    var selectedItem = tovarsGrid.SelectedItem as ProductUpd;
+                    var productName = selectedItem.Название;
 
-                var categoria = db.Категория.Where(x => x.Название == selectedItem.НазваниеКатегории).FirstOrDefault();
-                var size = db.РазмерыТовара.Where(x => x.Размер == selectedItem.Размеры).FirstOrDefault();
-                var unitOfWork = db.Единицы_измерения.Where(x => x.Название == selectedItem.ЕдиницаИзмерения).FirstOrDefault();
+                    var categoria = db.Категория.Where(x => x.Название == selectedItem.НазваниеКатегории).FirstOrDefault();
+                    var size = db.РазмерыТовара.Where(x => x.Размер == selectedItem.Размеры).FirstOrDefault();
+                    var unitOfWork = db.Единицы_измерения.Where(x => x.Название == selectedItem.ЕдиницаИзмерения).FirstOrDefault();
 
-                var needProduct = db.Товар.Where(x =>
-                x.ID_Категории == categoria.ID_Категории &&
-                x.ID_Размеров == size.ID_Размеров &&
-                x.ID_Единицы_измерения == unitOfWork.ID_Измерений &&
-                x.Название == productName).FirstOrDefault();
+                    var needProduct = db.Товар.Where(x =>
+                    x.ID_Категории == categoria.ID_Категории &&
+                    x.ID_Размеров == size.ID_Размеров &&
+                    x.ID_Единицы_измерения == unitOfWork.ID_Измерений &&
+                    x.Название == productName).FirstOrDefault();
 
-                var itemToRemove = db.ЗаказанныеТовары.Where(x =>
-                x.Заказ == _заказ.ID_Заказа &&
-                x.Количество == selectedItem.Count &&
-                x.Товар == needProduct.ID_Товара).FirstOrDefault();
-                //удаление товара
-                db.ЗаказанныеТовары.Remove(itemToRemove);
-                db.SaveChanges();
-                //обновление дата грида
-                UpdateView();
+                    var itemToRemove = db.ЗаказанныеТовары.Where(x =>
+                    x.Заказ == _заказ.ID_Заказа &&
+                    x.Количество == selectedItem.Count &&
+                    x.Товар == needProduct.ID_Товара).FirstOrDefault();
+                    //удаление товара
+                    db.ЗаказанныеТовары.Remove(itemToRemove);
+                    db.SaveChanges();
+                    //обновление дата грида
+                    UpdateView();
+                }
             }
+            catch
+            {
+                MessageBox.Show("Ошибка при удалении товара из заказа");
+            }
+            
         }
         public List<ProductUpd> GetProductUpds()
         {
@@ -285,9 +293,6 @@ namespace ConstructionStoreArzuTorg.Add
                         Microsoft.Office.Interop.Word._Application wordApplication = new Microsoft.Office.Interop.Word.Application();
                         Microsoft.Office.Interop.Word._Document wordDocument = null;
                         wordApplication.Visible = true;
-
-                        //var templatePathObj = @"D:\Проекты\ConstructionStoreArzuTorg-master\ConstructionStoreArzuTorg\";
-
 
                         var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
                         var relativePath = "Талон.docx";
@@ -506,13 +511,7 @@ namespace ConstructionStoreArzuTorg.Add
 
                 EdIzmComboBox.ItemsSource = newUnitOfWorks.Distinct();
 
-
             }
-        }
-
-        private void EdIzmComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
     }
 }

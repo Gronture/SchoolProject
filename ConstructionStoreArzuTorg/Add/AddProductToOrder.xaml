@@ -16,7 +16,7 @@
         <ComboBox x:Name="ProductComboBox" HorizontalAlignment="Left" Margin="180,35,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ProductComboBox_SelectionChanged"/>
         <ComboBox x:Name="CategorComboBox" HorizontalAlignment="Left" Margin="180,85,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="CategorComboBox_SelectionChanged"/>
         <ComboBox x:Name="RazmerComboBox" HorizontalAlignment="Left" Margin="180,135,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="RazmerComboBox_SelectionChanged"/>
-        <ComboBox x:Name="EdIzmComboBox" HorizontalAlignment="Left" Margin="180,185,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="EdIzmComboBox_SelectionChanged"/>
+        <ComboBox x:Name="EdIzmComboBox" HorizontalAlignment="Left" Margin="180,185,0,0" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="ColvoTextBox" HorizontalAlignment="Left" Margin="180,235,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <DataGrid ScrollViewer.HorizontalScrollBarVisibility="Disabled" AutoGenerateColumns="False" IsReadOnly="True" x:Name="tovarsGrid" Margin="375,4,10,-1" RenderTransformOrigin="0.5,0.5"  >
             <DataGrid.Columns>

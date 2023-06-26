@@ -104,7 +104,7 @@ namespace ConstructionStoreArzuTorg.Employee
                     firstJoin[i].Сезонность = lastJoin[i].Сезонность;
                     firstJoin[i].СерийныйНомер = lastJoin[i].СерийныйНомер;
                     firstJoin[i].Гарантия = lastJoin[i].Гарантия;
-                    firstJoin[i].Стоимость_со_скидкой = lastJoin[i].Стоимость_со_скидкой;
+                    firstJoin[i].Стоимость_со_скидкой = Math.Round((decimal)lastJoin[i].Стоимость_со_скидкой,2);
                 }
 
 

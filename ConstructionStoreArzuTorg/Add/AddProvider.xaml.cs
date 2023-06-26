@@ -38,10 +38,19 @@ namespace ConstructionStoreArzuTorg.Add
                     var textbox = (TextBox)control;
                     if (textbox.Text == string.Empty)
                     {
-                        MessageBox.Show("Ошибка");
+                        MessageBox.Show("Не заполнены текстовые поля");
                         return;
                     }
-
+                }
+                if (RSTextBox.Text.Length < 28 || RSTextBox.Text.Length > 28)
+                {
+                    MessageBox.Show("Неверное количество символов в расчётном счёте, должно быть 28 символов");
+                    return;
+                }
+                if (NumPlatTextBox.Text.Length < 9 || NumPlatTextBox.Text.Length > 9)
+                {
+                    MessageBox.Show("Неверное количество символов в учётном номере плательщика, должно быть 9");
+                    return;
                 }
             }
             var number = PhoneTextBox.Text;
