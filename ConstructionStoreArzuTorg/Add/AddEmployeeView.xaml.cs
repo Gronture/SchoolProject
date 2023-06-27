@@ -71,13 +71,18 @@ namespace ConstructionStoreArzuTorg.Add
 
                     db.Сотрудник.Add(emp);
                     db.SaveChanges();
+
+                    new EmployeeListView().Show();
+                    Close();
                 }
             }
 
             else
-               MessageBox.Show("Ошибка при заполнении поля Телефон");
-            new EmployeeListView().Show();
-            Close();
+            {
+                MessageBox.Show("Ошибка при заполнении поля Телефон");
+                return;
+            }
+            
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)

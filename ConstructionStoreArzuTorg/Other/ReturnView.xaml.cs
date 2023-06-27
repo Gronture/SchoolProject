@@ -279,7 +279,7 @@ namespace ConstructionStoreArzuTorg.Other
                     }
                     catch
                     {
-                        MessageBox.Show("Возникла ошибка");
+                        MessageBox.Show("Возникла ошибка при возврате товара");
                     }
                 }
 
@@ -328,13 +328,6 @@ namespace ConstructionStoreArzuTorg.Other
                       SumNDS = ((x.Tovar.Стоимость * x.Ord.Количество) * 20) / 100,
                       SumWithNDS = (((x.Tovar.Стоимость * x.Ord.Количество) * 20) / 100) + (x.Tovar.Стоимость * x.Ord.Количество)
                   }).Where(x => x.Ord == id).ToList();
-
-
-
-
-              
-
-
             }
         }
     }

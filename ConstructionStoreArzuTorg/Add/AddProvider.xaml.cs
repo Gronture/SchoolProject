@@ -86,7 +86,9 @@ namespace ConstructionStoreArzuTorg.Add
                         Microsoft.Office.Interop.Word._Document wordDocument = null;
                         wordApplication.Visible = true;
 
-                        var templatePathObj = @"D:\Проекты\ConstructionStoreArzuTorgNew-master\ConstructionStoreArzuTorg\DogovorWithProvider.docx";
+                        var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                        var relativePath = "DogovorWithProvider.docx";
+                        var templatePathObj = System.IO.Path.Combine(baseDirectory, relativePath);
 
                         try
                         {
@@ -152,6 +154,7 @@ namespace ConstructionStoreArzuTorg.Add
                 else 
                 {
                     MessageBox.Show("Ошибка при вводе телефона");
+                    return;
                 }
                 
             }
@@ -159,6 +162,7 @@ namespace ConstructionStoreArzuTorg.Add
             else
             {
                MessageBox.Show("Ошибка при вводе почты");
+                return;
             }
 
             

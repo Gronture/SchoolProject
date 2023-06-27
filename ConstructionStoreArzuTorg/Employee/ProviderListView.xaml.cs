@@ -45,21 +45,57 @@ namespace ConstructionStoreArzuTorg.Employee
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedItem = grid.SelectedItem as Поставщик;
-            new EditProviderView(selectedItem).Show();
-            Close();
+            try
+            {
+                var selectedItem = grid.SelectedItem as Поставщик;
+                if (selectedItem != null)
+                {
+                    new EditProviderView(selectedItem).Show();
+                    Close();
+                }
+                else
+                {
+                    MessageBox.Show("Выберите запись которую хотите изменить");
+                    return;
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка при изменении поставщика");
+                return;
+            }
+            
+            
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedElement = grid.SelectedItem as Поставщик;
-            using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+            try
             {
-                var findElement = db.Поставщик.Where(x => x.ID_Поставщика == selectedElement.ID_Поставщика).FirstOrDefault();
-                db.Поставщик.Remove(findElement);
-                db.SaveChanges();
+                var selectedElement = grid.SelectedItem as Поставщик;
+                if (selectedElement != null)
+                {
+                    using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+                    {
+                        var findElement = db.Поставщик.Where(x => x.ID_Поставщика == selectedElement.ID_Поставщика).FirstOrDefault();
+                        db.Поставщик.Remove(findElement);
+                        db.SaveChanges();
+                    }
+                    UpdateView();
+                }
+                else
+                {
+                    MessageBox.Show("Выберите запись которую хотите удалить");
+                    return;
+                }
             }
-            UpdateView();
+            catch
+            {
+                MessageBox.Show("Ошибка при удалении поставщика");
+                return;
+            }
+            
+            
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)

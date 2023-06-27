@@ -124,7 +124,7 @@ namespace ConstructionStoreArzuTorg.Employee
                 {
                     firstJoin[i].Размеры = secondJoin[i].Размеры;
                     firstJoin[i].ЕдиницаИзмерения = thirdJoin[i].ЕдиницаИзмерения;
-                    firstJoin[i].Стоимость = lastJoin[i].Стоимость;
+                    firstJoin[i].Стоимость = Math.Round(lastJoin[i].Стоимость, 2);
                     firstJoin[i].Сезонность = lastJoin[i].Сезонность;
                     firstJoin[i].СерийныйНомер = lastJoin[i].СерийныйНомер;
                     firstJoin[i].Гарантия = lastJoin[i].Гарантия;
@@ -196,22 +196,33 @@ namespace ConstructionStoreArzuTorg.Employee
 
         private void DeleteRezervButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedItem = grid.SelectedItem as RezervUpd;
             try
             {
-                using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+                var selectedItem = grid.SelectedItem as RezervUpd;
+
+                if (selectedItem != null)
                 {
-                    var item = db.Резервация.Where(x => x.ID == selectedItem.ID).FirstOrDefault();
-                    db.Резервация.Remove(item);
-                    db.SaveChanges();
+                    using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+                    {
+                        var item = db.Резервация.Where(x => x.ID == selectedItem.ID).FirstOrDefault();
+                        db.Резервация.Remove(item);
+                        db.SaveChanges();
 
-                    Update();
+                        Update();
 
+                    }
                 }
+                else
+                {
+                    MessageBox.Show("Выберите запись которую хотите удалить");
+                    return;
+                }
+                
             }
             catch
             {
                 MessageBox.Show("Ошибка удаления резервации");
+                return;
             }
             
         }

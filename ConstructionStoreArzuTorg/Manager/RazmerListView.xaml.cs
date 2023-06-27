@@ -41,14 +41,32 @@ namespace ConstructionStoreArzuTorg.Manager
 
         private void DeletePositionButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedElement = grid.SelectedItem as РазмерыТовара;
-            using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+            try
             {
-                var findElement = db.РазмерыТовара.Where(x => x.ID_Размеров == selectedElement.ID_Размеров).FirstOrDefault();
-                db.РазмерыТовара.Remove(findElement);
-                db.SaveChanges();
+                var selectedElement = grid.SelectedItem as РазмерыТовара;
+                if (selectedElement != null)
+                {
+                    using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+                    {
+                        var findElement = db.РазмерыТовара.Where(x => x.ID_Размеров == selectedElement.ID_Размеров).FirstOrDefault();
+                        db.РазмерыТовара.Remove(findElement);
+                        db.SaveChanges();
+                    }
+                    UpdateView();
+                }
+                else
+                {
+                    MessageBox.Show("Выберите запись которую хотите удалить");
+                    return;
+                }
             }
-            UpdateView();
+            catch
+            {
+                MessageBox.Show("Ошибка при удалении записи");
+                return;
+            }
+            
+            
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)

@@ -27,31 +27,38 @@ namespace ConstructionStoreArzuTorg.Add
         
         private void AddPositionButton_Click(object sender, RoutedEventArgs e)
         {
-            // проверка на заполнение TextBox
-            foreach (var control in grid.Children)
+            try
             {
-                if (control is TextBox)
+                // проверка на заполнение TextBox
+                foreach (var control in grid.Children)
                 {
-                    var textbox = (TextBox)control;
-                    if (textbox.Text == string.Empty)
+                    if (control is TextBox)
                     {
-                        MessageBox.Show("Не заполнены текстовые поля");
-                        return;
-                    }
+                        var textbox = (TextBox)control;
+                        if (textbox.Text == string.Empty)
+                        {
+                            MessageBox.Show("Не заполнены текстовые поля");
+                            return;
+                        }
 
+                    }
                 }
+                using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+                {
+                    //добавление категории
+                    Категория категория = new Категория();
+                    категория.Название = NameTextBox.Text;
+                    db.Категория.Add(категория);
+                    db.SaveChanges();
+                }
+                //переход на окно категорий
+                new CategorListView().Show();
+                Close();
             }
-            using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+            catch
             {
-                //добавление категории
-                Категория категория = new Категория();
-                категория.Название = NameTextBox.Text;
-                db.Категория.Add(категория);
-                db.SaveChanges();
+                MessageBox.Show("Ошибка добавления категории");
             }
-            //переход на окно категорий
-            new CategorListView().Show();
-            Close();
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)

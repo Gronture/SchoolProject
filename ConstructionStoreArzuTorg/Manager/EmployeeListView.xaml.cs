@@ -69,9 +69,27 @@ namespace ConstructionStoreArzuTorg.Manager
 
         private void EditEmpButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectItem = grid.SelectedItem as EmployeeUpd;
-            new EditEmployeeView(selectItem).Show();
-            Close();
+            try
+            {
+                var selectItem = grid.SelectedItem as EmployeeUpd;
+                if (selectItem != null)
+                {
+                    new EditEmployeeView(selectItem).Show();
+                    Close();
+                }
+                else
+                {
+                    MessageBox.Show("Выберите запись которую хотите изменить");
+                    return;
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка при изменении сотрудника");
+                return;
+            }
+            
+            
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)

@@ -96,71 +96,92 @@ namespace ConstructionStoreArzuTorg.Add
 
         private void AddProductButton_Click(object sender, RoutedEventArgs e)
         {
-            foreach (var control in grid.Children)
-            {
-                if (control is TextBox)
-                {
-                    var textbox = (TextBox)control;
-                    if (textbox.Text == string.Empty)
-                    {
-                        MessageBox.Show("Ошибка");
-                        return;
-                    }
-
-                }
-                if (control is ComboBox)
-                {
-                    var comboBox = (ComboBox)control;
-                    if (comboBox.SelectedValue == null || comboBox.SelectedValue.ToString() == string.Empty)
-                    {
-                        MessageBox.Show("Ошибка");
-                        return;
-                    }
-                }
-            }
             try
             {
-                using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+                foreach (var control in grid.Children)
                 {
-                    var products = db.Товар.ToList();
-                    var nameProd = ProductComboBox.SelectedItem.ToString();
-
-                    var categoria = db.Категория.Where(x => x.Название == CategorComboBox.SelectedItem.ToString()).FirstOrDefault();
-                    var size = db.РазмерыТовара.Where(x => x.Размер == RazmerComboBox.SelectedItem.ToString()).FirstOrDefault();
-                    var unitOfWork = db.Единицы_измерения.Where(x => x.Название == EdIzmComboBox.SelectedItem.ToString()).FirstOrDefault();
-
-
-
-                    var needitems = db.Товар.Where(x => x.Название == nameProd).ToList();
-
-                    var needProduct = needitems.Where(x => x.ID_Категории == categoria.ID_Категории &&
-                    x.ID_Размеров == size.ID_Размеров &&
-                    x.ID_Единицы_измерения == unitOfWork.ID_Измерений).FirstOrDefault();
-
-                    if (needProduct != null)
+                    if (control is TextBox)
                     {
-                        РезервацияТоваров reze = new РезервацияТоваров();
-                        reze.Резервирование = _резервация.ID;
-                        reze.Количество = int.Parse(ColvoTextBox.Text);
-                        reze.Товар = needProduct.ID_Товара;
+                        var textbox = (TextBox)control;
+                        if (string.IsNullOrWhiteSpace(textbox.Text))
+                        {
+                            MessageBox.Show("Не заполнены текстовые поля");
+                            return;
+                        }
 
-                        db.РезервацияТоваров.Add(reze);
-                        db.SaveChanges();
-
-                        UpdateView();
-
-                        ClearComboBox();
                     }
-                    else
+                    if (control is ComboBox)
                     {
-                        MessageBox.Show("Ошибка");
+                        var comboBox = (ComboBox)control;
+                        if (comboBox.SelectedValue == null || comboBox.SelectedValue.ToString() == string.Empty)
+                        {
+                            MessageBox.Show("Не выбран товар или его параметры");
+                            return;
+                        }
                     }
                 }
+                try
+                {
+                    using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+                    {
+                        var products = db.Товар.ToList();
+                        var nameProd = ProductComboBox.SelectedItem.ToString();
+
+                        var categoria = db.Категория.Where(x => x.Название == CategorComboBox.SelectedItem.ToString()).FirstOrDefault();
+                        var size = db.РазмерыТовара.Where(x => x.Размер == RazmerComboBox.SelectedItem.ToString()).FirstOrDefault();
+                        var unitOfWork = db.Единицы_измерения.Where(x => x.Название == EdIzmComboBox.SelectedItem.ToString()).FirstOrDefault();
+
+
+
+                        var needitems = db.Товар.Where(x => x.Название == nameProd).ToList();
+
+                        var needProduct = needitems.Where(x => x.ID_Категории == categoria.ID_Категории &&
+                        x.ID_Размеров == size.ID_Размеров &&
+                        x.ID_Единицы_измерения == unitOfWork.ID_Измерений).FirstOrDefault();
+
+                        var isPositiveOnWarehouse = db.Склад.FirstOrDefault(x => x.Товар == needProduct.ID_Товара).Количество >= int.Parse(ColvoTextBox.Text);
+
+                        if (isPositiveOnWarehouse)
+                        {
+                            if (needProduct != null)
+                            {
+                                РезервацияТоваров reze = new РезервацияТоваров();
+                                reze.Резервирование = _резервация.ID;
+                                reze.Количество = int.Parse(ColvoTextBox.Text);
+                                reze.Товар = needProduct.ID_Товара;
+
+                                db.РезервацияТоваров.Add(reze);
+                                db.SaveChanges();
+
+                                UpdateView();
+
+                                ClearComboBox();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Ошибка при добавлении товара");
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ошибка, недостаточно товара на складе");
+                            return;
+                        }
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("Ошибка при добавлении товара");
+                    return;
+                }
             }
-            catch
+            catch 
             {
-                MessageBox.Show("Ошибка");
+                MessageBox.Show("Введены некоректные данные");
+                return;
             }
+            
         }
 
         private void DeleteProductButton_Click(object sender, RoutedEventArgs e)
@@ -196,6 +217,7 @@ namespace ConstructionStoreArzuTorg.Add
             catch 
             {
                 MessageBox.Show("Ошибка удаления товара из резервации");
+                return;
             }
             
         }
@@ -367,6 +389,7 @@ namespace ConstructionStoreArzuTorg.Add
                 catch 
                 {
                     MessageBox.Show("Ошибка формирования гарантийного талона");
+                    return;
                 }
             }
 
@@ -410,6 +433,7 @@ namespace ConstructionStoreArzuTorg.Add
                         wordApplication.Quit();
                         wordApplication = null;
                         MessageBox.Show("Файл не найден");
+                        return;
                     }
 
 
@@ -490,6 +514,7 @@ namespace ConstructionStoreArzuTorg.Add
             catch 
             {
                 MessageBox.Show("Ошибка формирования документа о резервации");
+                return;
             }
             
 
@@ -554,60 +579,60 @@ namespace ConstructionStoreArzuTorg.Add
 
         private void CategorComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (CategorComboBox.SelectedItem == null)
-                return;
-            using (ConstructionStoreEntities db = new ConstructionStoreEntities())
-            {
-                var selectedItem = CategorComboBox.SelectedItem.ToString();
-                var categor = db.Категория.Where(x => x.Название == selectedItem).FirstOrDefault();
+            //if (CategorComboBox.SelectedItem == null)
+            //    return;
+            //using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+            //{
+            //    var selectedItem = CategorComboBox.SelectedItem.ToString();
+            //    var categor = db.Категория.Where(x => x.Название == selectedItem).FirstOrDefault();
 
-                var needProducts = db.Товар.Where(x => x.ID_Категории == categor.ID_Категории).ToList();
+            //    var needProducts = db.Товар.Where(x => x.ID_Категории == categor.ID_Категории).ToList();
 
-                var sizes = db.РазмерыТовара.ToList();
+            //    var sizes = db.РазмерыТовара.ToList();
 
-                var newSizes = new List<string>();
+            //    var newSizes = new List<string>();
 
-                for (int i = 0; i < needProducts.Count; i++)
-                {
-                    // var unitOfWork = db.Единицы_измерения.Where(x => x.ID_Измерений == needProducts[i].ID_Категории).FirstOrDefault();
-                    var size = sizes.Where(x => x.ID_Размеров == needProducts[i].ID_Размеров).FirstOrDefault();
-                    newSizes.Add(size.Размер);
+            //    for (int i = 0; i < needProducts.Count; i++)
+            //    {
+            //        // var unitOfWork = db.Единицы_измерения.Where(x => x.ID_Измерений == needProducts[i].ID_Категории).FirstOrDefault();
+            //        var size = sizes.Where(x => x.ID_Размеров == needProducts[i].ID_Размеров).FirstOrDefault();
+            //        newSizes.Add(size.Размер);
 
-                }
+            //    }
 
-                RazmerComboBox.ItemsSource = newSizes.Distinct();
+            //    RazmerComboBox.ItemsSource = newSizes.Distinct();
 
-            }
+            //}
         }
 
         private void RazmerComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (RazmerComboBox.SelectedItem == null)
-                return;
-            using (ConstructionStoreEntities db = new ConstructionStoreEntities())
-            {
-                var selectedSize = RazmerComboBox.SelectedItem.ToString();
-                var selectedCategor = CategorComboBox.SelectedItem.ToString();
+            //if (RazmerComboBox.SelectedItem == null)
+            //    return;
+            //using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+            //{
+            //    var selectedSize = RazmerComboBox.SelectedItem.ToString();
+            //    var selectedCategor = CategorComboBox.SelectedItem.ToString();
 
-                var categor = db.Категория.Where(x => x.Название == selectedCategor).FirstOrDefault();
-                var size = db.РазмерыТовара.Where(x => x.Размер == selectedSize).FirstOrDefault();
+            //    var categor = db.Категория.Where(x => x.Название == selectedCategor).FirstOrDefault();
+            //    var size = db.РазмерыТовара.Where(x => x.Размер == selectedSize).FirstOrDefault();
 
-                var needProducts = db.Товар.Where(x => x.ID_Размеров == size.ID_Размеров && x.ID_Категории == categor.ID_Категории).ToList();
+            //    var needProducts = db.Товар.Where(x => x.ID_Размеров == size.ID_Размеров && x.ID_Категории == categor.ID_Категории).ToList();
 
-                var unitofworks = db.Единицы_измерения.ToList();
+            //    var unitofworks = db.Единицы_измерения.ToList();
 
-                var newUnitOfWorks = new List<string>();
-                for (int i = 0; i < needProducts.Count; i++)
-                {
-                    var unitOfWork = unitofworks.Where(x => x.ID_Измерений == needProducts[i].ID_Единицы_измерения).FirstOrDefault();
-                    newUnitOfWorks.Add(unitOfWork.Название);
-
-
-                }
-                EdIzmComboBox.ItemsSource = newUnitOfWorks.Distinct();
+            //    var newUnitOfWorks = new List<string>();
+            //    for (int i = 0; i < needProducts.Count; i++)
+            //    {
+            //        var unitOfWork = unitofworks.Where(x => x.ID_Измерений == needProducts[i].ID_Единицы_измерения).FirstOrDefault();
+            //        newUnitOfWorks.Add(unitOfWork.Название);
 
 
-            }
+            //    }
+            //    EdIzmComboBox.ItemsSource = newUnitOfWorks.Distinct();
+
+
+            //}
         }
     }
 }

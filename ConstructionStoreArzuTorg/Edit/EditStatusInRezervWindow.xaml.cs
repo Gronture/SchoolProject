@@ -76,7 +76,8 @@ namespace ConstructionStoreArzuTorg.Edit
                 }
                 catch
                 {
-                    MessageBox.Show("Ошибка"); 
+                    MessageBox.Show("Ошибка при изменении статуса");
+                    return;
                 }
             }
         }

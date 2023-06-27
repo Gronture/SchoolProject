@@ -56,7 +56,7 @@ namespace ConstructionStoreArzuTorg.Edit
                     var textbox = (TextBox)control;
                     if (textbox.Text == string.Empty)
                     {
-                        MessageBox.Show("Ошибка");
+                        MessageBox.Show("Не заполнены текстовые поля");
                         return;
                     }
 
@@ -66,7 +66,7 @@ namespace ConstructionStoreArzuTorg.Edit
                     var comboBox = (ComboBox)control;
                     if (comboBox.SelectedValue == null || comboBox.SelectedValue.ToString() == string.Empty)
                     {
-                        MessageBox.Show("Ошибка");
+                        MessageBox.Show("Не выбрана должность");
                         return;
                     }
                 }
@@ -89,16 +89,19 @@ namespace ConstructionStoreArzuTorg.Edit
                         needObject.ID_Должности = db.Должность.Where(x => x.Название == PositionComboBox.Text).FirstOrDefault().ID_Должности;
                         needObject.Телефон = PhoneTextBox.Text;
                         db.SaveChanges();
+
+                        new EmployeeListView().Show();
+                        Close();
                     }
                 }
             }
             else
             {
                 MessageBox.Show("Ошибка при вводе телефона");
+                return;
             }
             
-            new EmployeeListView().Show();
-            Close();
+            
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)

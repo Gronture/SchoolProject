@@ -88,7 +88,7 @@ namespace ConstructionStoreArzuTorg.Employee
                     (product, units) => new ProductUpd
                     {
                         Стоимость = product.cl.Стоимость,
-                        Сезонность = db.Сезонность.Where(x => x.ID == units.ID).FirstOrDefault().Название_сезона,
+                        Сезонность = db.Сезонность.Where(x => x.ID == units.ID).FirstOrDefault().Название_сезона + " " + db.Сезонность.Where(x => x.ID == units.ID).FirstOrDefault().Процент,
                         СерийныйНомер = product.cl.Серийный_номер,
                         Гарантия = product.cl.Гарантия,
                         Стоимость_со_скидкой = product.cl.Стоимость_со_скидкой,
@@ -126,9 +126,27 @@ namespace ConstructionStoreArzuTorg.Employee
 
         private void EditProductButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedItem = grid.SelectedItem as ProductUpd;
-            new EditProductView(selectedItem).Show();
-            this.Close();
+            try
+            {
+                var selectedItem = grid.SelectedItem as ProductUpd;
+                if (selectedItem != null)
+                {
+                    new EditProductView(selectedItem).Show();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Выберите запись которую хотите изменить");
+                    return;
+                }
+                
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка изменения товара");
+                return;
+            }
+            
         }
 
         private void AddProductButton_Click(object sender, RoutedEventArgs e)
@@ -139,14 +157,31 @@ namespace ConstructionStoreArzuTorg.Employee
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedElement = grid.SelectedItem as ProductUpd;
-            using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+            try
             {
-                var findElement = db.Товар.Where(x => x.ID_Товара == selectedElement.ID_Товара).FirstOrDefault();
-                db.Товар.Remove(findElement);
-                db.SaveChanges();
+                var selectedElement = grid.SelectedItem as ProductUpd;
+                if (selectedElement != null)
+                {
+                    using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+                    {
+                        var findElement = db.Товар.Where(x => x.ID_Товара == selectedElement.ID_Товара).FirstOrDefault();
+                        db.Товар.Remove(findElement);
+                        db.SaveChanges();
+                    }
+                    UpdateView();
+                }
+                else
+                {
+                    MessageBox.Show("Выберите запись которую хотите удалить");
+                    return;
+                }
             }
-            UpdateView();
+            catch
+            {
+                MessageBox.Show("Ошибка удаления товара");
+                return;
+            }
+            
         }
     }
 }

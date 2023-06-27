@@ -66,7 +66,7 @@ namespace ConstructionStoreArzuTorg.Edit
                     var textbox = (TextBox)control;
                     if (textbox.Text == string.Empty)
                     {
-                        MessageBox.Show("Ошибка");
+                        MessageBox.Show("Не заполнены текстовые поля");
                         return;
                     }
 
@@ -76,7 +76,7 @@ namespace ConstructionStoreArzuTorg.Edit
                     var comboBox = (ComboBox)control;
                     if (comboBox.SelectedValue == null || comboBox.SelectedValue.ToString() == string.Empty)
                     {
-                        MessageBox.Show("Ошибка");
+                        MessageBox.Show("Не выбраны параметры товара");
                         return;
                     }
                 }

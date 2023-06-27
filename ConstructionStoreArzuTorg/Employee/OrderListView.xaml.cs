@@ -180,7 +180,7 @@ namespace ConstructionStoreArzuTorg.Employee
                 {
                     firstJoin[i].Размеры = secondJoin[i].Размеры;
                     firstJoin[i].ЕдиницаИзмерения = thirdJoin[i].ЕдиницаИзмерения;
-                    firstJoin[i].Стоимость = lastJoin[i].Стоимость;
+                    firstJoin[i].Стоимость = Math.Round(lastJoin[i].Стоимость, 2);
                     firstJoin[i].Сезонность = lastJoin[i].Сезонность;
                     firstJoin[i].СерийныйНомер = lastJoin[i].СерийныйНомер;
                     firstJoin[i].Гарантия = lastJoin[i].Гарантия;
@@ -200,17 +200,34 @@ namespace ConstructionStoreArzuTorg.Employee
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedItem = orderGrid.SelectedItem as OrderUpd;
-
-            using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+            try
             {
-                var item = db.Заказ.Where(x => x.ID_Заказа == selectedItem.ID_Заказа).FirstOrDefault();
-                db.Заказ.Remove(item);
-                db.SaveChanges();
+                var selectedItem = orderGrid.SelectedItem as OrderUpd;
+                if (selectedItem != null)
+                {
+                    using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+                    {
+                        var item = db.Заказ.Where(x => x.ID_Заказа == selectedItem.ID_Заказа).FirstOrDefault();
+                        db.Заказ.Remove(item);
+                        db.SaveChanges();
 
-                UpdateView();
+                        UpdateView();
 
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Выберите запись которую хотите удалить");
+                    return;
+                }
             }
+            catch 
+            {
+                MessageBox.Show("Ошибка при удалении заказа");
+                return;
+            }
+            
+            
         }
         private void ReportButton_Click(object sender, RoutedEventArgs e)
         {
@@ -341,6 +358,7 @@ namespace ConstructionStoreArzuTorg.Employee
             catch 
             {
                 MessageBox.Show("Ошибка создания документа");
+                return;
             }
             
         }
@@ -447,7 +465,9 @@ namespace ConstructionStoreArzuTorg.Employee
                 Microsoft.Office.Interop.Word._Document wordDocument = null;
                 wordApplication.Visible = true;
 
-                var templatePathObj = @"D:\Проекты\ConstructionStoreArzuTorgNew-master\ConstructionStoreArzuTorg\receipt.docx";
+                var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                var relativePath = "receipt.docx";
+                var templatePathObj = System.IO.Path.Combine(baseDirectory, relativePath);
 
                 try
                 {
@@ -462,7 +482,8 @@ namespace ConstructionStoreArzuTorg.Employee
                     }
                     wordApplication.Quit();
                     wordApplication = null;
-                    throw;
+                    MessageBox.Show("Файл не найден");
+                    return;
                 }
 
 

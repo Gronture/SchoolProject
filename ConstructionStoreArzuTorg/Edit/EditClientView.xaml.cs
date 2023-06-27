@@ -54,7 +54,7 @@ namespace ConstructionStoreArzuTorg.Edit
                     var textbox = (TextBox)control;
                     if (textbox.Text == string.Empty)
                     {
-                        MessageBox.Show("Ошибка");
+                        MessageBox.Show("Не заполнены текстовые поля");
                         return;
                     }
 

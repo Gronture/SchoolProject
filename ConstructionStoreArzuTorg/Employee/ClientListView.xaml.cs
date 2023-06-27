@@ -54,9 +54,27 @@ namespace ConstructionStoreArzuTorg.Employee
 
         private void EditCleintButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedItem = grid.SelectedItem as Клиент;
-            new EditClientView(selectedItem).Show();
-            Close();
+            try
+            {
+                var selectedItem = grid.SelectedItem as Клиент;
+                if (selectedItem != null)
+                {
+                    new EditClientView(selectedItem).Show();
+                    Close();
+                }
+                else
+                {
+                    MessageBox.Show("Выберите запись которую хотите изменить");
+                    return;
+                }
+                
+            }
+            catch 
+            {
+                MessageBox.Show("Ошбка изменения клиента");
+                return;
+            }
+            
         }
         //сортировка клиентов по фамилии
         private void SortTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -73,14 +91,30 @@ namespace ConstructionStoreArzuTorg.Employee
         //удаление клиента
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedElement = grid.SelectedItem as Клиент;
-            using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+            try
             {
-                var findElement = db.Клиент.Where(x => x.ID_Клиента == selectedElement.ID_Клиента).FirstOrDefault();
-                db.Клиент.Remove(findElement);
-                db.SaveChanges();
+                var selectedElement = grid.SelectedItem as Клиент;
+                if (selectedElement != null)
+                {
+                    using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+                    {
+                        var findElement = db.Клиент.Where(x => x.ID_Клиента == selectedElement.ID_Клиента).FirstOrDefault();
+                        db.Клиент.Remove(findElement);
+                        db.SaveChanges();
+                    }
+                    UpdateView();
+                }
+                else
+                {
+                    MessageBox.Show("Выберите запись которую хотите удалить");
+                    return;
+                }
             }
-            UpdateView();
+            catch 
+            {
+                MessageBox.Show("Ошибка удаления клиента");
+                return;
+            }            
         }
     }
 }

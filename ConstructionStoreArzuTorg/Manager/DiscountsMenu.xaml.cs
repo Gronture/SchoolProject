@@ -41,14 +41,30 @@ namespace ConstructionStoreArzuTorg.Manager
 
         private void DeleteDiscountsButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedElement = grid.SelectedItem as Сезонность;
-            using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+            try
             {
-                var findElement = db.Сезонность.Where(x => x.ID == selectedElement.ID).FirstOrDefault();
-                db.Сезонность.Remove(findElement);
-                db.SaveChanges();
+                var selectedElement = grid.SelectedItem as Сезонность;
+                if (selectedElement != null)
+                {
+                    using (ConstructionStoreEntities db = new ConstructionStoreEntities())
+                    {
+                        var findElement = db.Сезонность.Where(x => x.ID == selectedElement.ID).FirstOrDefault();
+                        db.Сезонность.Remove(findElement);
+                        db.SaveChanges();
+                    }
+                    UpdateView();
+                }
+                else
+                {
+                    MessageBox.Show("Выберите запись которую хотите удалить");
+                    return;
+                }
             }
-            UpdateView();
+            catch
+            {
+                MessageBox.Show("Ошибка удаления скидки");
+                return;
+            }            
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)

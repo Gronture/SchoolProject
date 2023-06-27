@@ -39,8 +39,9 @@ namespace ConstructionStoreArzuTorg.Edit
             CodeBankTextBox.Text = _provider.Код_банка.ToString();
             AddressTextBox.Text = _provider.Адрес.ToString();
             FIOTextBox.Text = _provider.ФИО.ToString();
+            PhoneTextBox.Text = _provider.Телефон.ToString();
             PosTextBox.Text = _provider.Должность.ToString();
-            EmailTextBox.Text = _provider.Адрес.ToString();
+            EmailTextBox.Text = _provider.Почта.ToString();
         }
 
         private void AcceptButton_Click(object sender, RoutedEventArgs e)
@@ -54,7 +55,7 @@ namespace ConstructionStoreArzuTorg.Edit
                         var textbox = (TextBox)control;
                         if (textbox.Text == string.Empty)
                         {
-                            MessageBox.Show("Ошибка");
+                            MessageBox.Show("Не заполнены текстовые поля");
                             return;
                         }
                     }
@@ -86,22 +87,23 @@ namespace ConstructionStoreArzuTorg.Edit
                             needObject.Должность = PosTextBox.Text;
                             needObject.Почта = EmailTextBox.Text;
                             db.SaveChanges();
+                            new ProviderListView().Show();
+                            Close();
                         }
                     }
 
                     else
                     {
                         MessageBox.Show("Ошибка при вводе телефона");
+                        return;
                     }
                 }
                 else
                 {
                     MessageBox.Show("Ошибка при вводе почты");
+                    return;
                 }
-            }
-                
-            new ProviderListView().Show();
-            Close();
+            }  
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
